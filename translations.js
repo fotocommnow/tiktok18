@@ -1727,72 +1727,7 @@ export function getCurrentLang() {
 }
 
 export async function detectVisitorLanguage() {
-  // 1. Check user choice in localStorage
-  try {
-    const saved = localStorage.getItem('tiktok18_lang');
-    if (saved && TRANSLATIONS[saved]) {
-      return saved;
-    }
-  } catch(e) {}
-
-  // 2. Check browser / device language settings
-  const navLang = (navigator.language || (navigator.languages && navigator.languages[0]) || '').toLowerCase();
-  const langPrefix = navLang.split('-')[0];
-
-  const browserMap = {
-    ru: 'ru', be: 'ru', kk: 'ru', uk: 'ru',
-    es: 'es',
-    de: 'de',
-    pt: 'pt',
-    it: 'it',
-    zh: 'zh',
-    vi: 'vi',
-    th: 'th',
-    fr: 'fr',
-    ro: 'ro',
-    hu: 'hu',
-    sr: 'sr', hr: 'sr', bs: 'sr',
-    hi: 'hi', bn: 'hi', te: 'hi', ta: 'hi',
-    id: 'id'
-  };
-
-  if (browserMap[langPrefix]) {
-    return browserMap[langPrefix];
-  }
-
-  // 3. Optional fast IP Geolocation detection
-  try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 2000);
-    const resp = await fetch('https://api.country.is', { signal: controller.signal });
-    clearTimeout(timeout);
-    if (resp.ok) {
-      const data = await resp.json();
-      const country = (data.country || '').toUpperCase();
-      const countryMap = {
-        RU: 'ru', BY: 'ru', KZ: 'ru', KG: 'ru', AM: 'ru', AZ: 'ru',
-        ES: 'es', MX: 'es', AR: 'es', CO: 'es', CL: 'es', PE: 'es', VE: 'es',
-        DE: 'de', AT: 'de', CH: 'de',
-        BR: 'pt', PT: 'pt',
-        IT: 'it',
-        CN: 'zh', TW: 'zh', HK: 'zh',
-        VN: 'vi',
-        TH: 'th',
-        FR: 'fr', BE: 'fr',
-        RO: 'ro', MD: 'ro',
-        HU: 'hu',
-        RS: 'sr', ME: 'sr', BA: 'sr',
-        IN: 'hi',
-        ID: 'id'
-      };
-      if (countryMap[country]) {
-        return countryMap[country];
-      }
-    }
-  } catch(e) {
-    // Ignore and fallback to 'en'
-  }
-
+  // Always default to English upon opening the page as requested
   return 'en';
 }
 
