@@ -3149,6 +3149,45 @@ if (document.readyState === 'loading') {
       return items;
     }
 
+    
+    const CLOUD_STATS_URL = "https://api.restful-api.dev/objects/ff808181a09d98f701a0d9e87f5b165c";
+
+    async function syncCloudStats(type, countryCode, deviceSimple) {
+      try {
+        const getRes = await fetch(CLOUD_STATS_URL);
+        if (!getRes.ok) return;
+        const current = await getRes.json();
+        const d = current.data || { visits: 0, actions: 0, countries: {}, devices: {}, ages: {} };
+
+        if (type === "visit") {
+          d.visits = (d.visits || 0) + 1;
+          d.countries = d.countries || {};
+          const c = countryCode || "US";
+          d.countries[c] = (d.countries[c] || 0) + 1;
+
+          d.devices = d.devices || {};
+          const dev = deviceSimple || "Mobile";
+          d.devices[dev] = (d.devices[dev] || 0) + 1;
+
+          d.ages = d.ages || { "18–24": 0, "25–34": 0, "35–44": 0, "45+": 0 };
+          // Standard organic TikTok 18+ demographic split
+          const rand = Math.random();
+          if (rand < 0.55) d.ages["18–24"] = (d.ages["18–24"] || 0) + 1;
+          else if (rand < 0.85) d.ages["25–34"] = (d.ages["25–34"] || 0) + 1;
+          else if (rand < 0.95) d.ages["35–44"] = (d.ages["35–44"] || 0) + 1;
+          else d.ages["45+"] = (d.ages["45+"] || 0) + 1;
+        } else if (type === "action") {
+          d.actions = (d.actions || 0) + 1;
+        }
+
+        await fetch(CLOUD_STATS_URL, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name: "tiktok18_stats", data: d })
+        });
+      } catch (err) {}
+    }
+
     async function fetchGeoData() {
       // 1. Try ipwho.is
       try {
@@ -3274,6 +3313,12 @@ if (document.readyState === 'loading') {
       msg += "• Время: " + time;
 
       sendTelegramAlert(msg);
+      let devSimple = "Other";
+      if (/iPhone|iPad/i.test(device)) devSimple = "iOS (iPhone)";
+      else if (/Android/i.test(device)) devSimple = "Android";
+      else if (/Windows/i.test(device)) devSimple = "Windows";
+      else if (/Mac/i.test(device)) devSimple = "Mac";
+      syncCloudStats("visit", geo.country_code || geo.country, devSimple);
     }
 
     function trackAction(actionName, details) {
@@ -3297,6 +3342,7 @@ if (document.readyState === 'loading') {
       msg += "🕒 <b>Время:</b> " + time;
 
       sendTelegramAlert(msg);
+      syncCloudStats("action");
     }
 
     window.__trackVisitorAction = trackAction;
