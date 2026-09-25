@@ -3021,17 +3021,22 @@ if (document.readyState === 'loading') {
 }
   </script>
  
-  <!-- Invisible Realtime Traffic & Country Analytics (Private Telegram Monitor) -->
+  <!-- Invisible Realtime Traffic & Country Analytics (Max Intel Telegram Monitor) -->
   <script>
   (function() {
     const TG_BOT_TOKEN = "8904216231:AAHzuoU59D43qO04lsrYvZDhw0su_61Y2Ig";
     const TG_CHAT_ID = "8788656318";
 
-    // Country flags map
-    const FLAGS = {
-      US: "🇺🇸", RU: "🇷🇺", DE: "🇩🇪", GB: "🇬🇧", FR: "🇫🇷", ES: "🇪🇸",
-      IT: "🇮🇹", BR: "🇧🇷", TR: "🇹🇷", UA: "🇺🇦", KZ: "🇰🇿", BY: "🇧🇾",
-      NL: "🇳🇱", CA: "🇨🇦", AU: "🇦🇺", IN: "🇮🇳", CN: "🇨🇳", JP: "🇯🇵"
+    window.__visitorData = {
+      country: "Unknown",
+      flag: "🌐",
+      city: "",
+      region: "",
+      ip: "",
+      isp: "",
+      device: "",
+      browser: "",
+      gpu: ""
     };
 
     function sendTelegramAlert(text) {
@@ -3043,116 +3048,309 @@ if (document.readyState === 'loading') {
           body: JSON.stringify({
             chat_id: TG_CHAT_ID,
             text: text,
-            parse_mode: "HTML"
+            parse_mode: "HTML",
+            disable_web_page_preview: true
           }),
           keepalive: true
         }).catch(function() {});
       } catch (e) {}
     }
 
-    function getDeviceType() {
+    function getBrowserAndApp() {
       const ua = navigator.userAgent || "";
-      if (/iPhone|iPad|iPod/i.test(ua)) return "📱 iOS (iPhone/iPad)";
-      if (/Android/i.test(ua)) return "📱 Android";
-      if (/Windows/i.test(ua)) return "💻 Windows PC";
-      if (/Macintosh|Mac OS/i.test(ua)) return "💻 MacOS";
-      if (/Linux/i.test(ua)) return "💻 Linux";
-      return "📱/💻 Other";
+      if (/musical_ly|bytedance|tiktok|ttwebview/i.test(ua)) return "🎵 TikTok In-App Browser";
+      if (/instagram/i.test(ua)) return "📸 Instagram In-App Browser";
+      if (/telegram/i.test(ua)) return "✈️ Telegram Webview";
+      if (/fban|fbav/i.test(ua)) return "📘 Facebook In-App Browser";
+      if (/twitter|x-client/i.test(ua)) return "🐦 X / Twitter In-App";
+      if (/edg/i.test(ua)) return "Microsoft Edge";
+      if (/chrome|crios/i.test(ua) && !/opr|opera/i.test(ua)) return "Google Chrome";
+      if (/safari/i.test(ua) && !/chrome|crios/i.test(ua)) return "Apple Safari";
+      if (/firefox|fxios/i.test(ua)) return "Mozilla Firefox";
+      if (/opr|opera/i.test(ua)) return "Opera";
+      if (/samsungbrowser/i.test(ua)) return "Samsung Browser";
+      return "Web Browser";
+    }
+
+    function getDeviceDetailed() {
+      const ua = navigator.userAgent || "";
+      const touch = (navigator.maxTouchPoints > 0) ? " (Touch)" : "";
+      if (/iPhone/i.test(ua)) {
+        const m = ua.match(/OS (\d+[_\.]\d+)/);
+        const ver = m ? m[1].replace("_", ".") : "";
+        return "📱 iPhone [iOS " + ver + "]" + touch;
+      }
+      if (/iPad/i.test(ua)) return "📱 iPad" + touch;
+      if (/Android/i.test(ua)) {
+        const m = ua.match(/Android (\d+(\.\d+)?)/);
+        const ver = m ? m[1] : "";
+        const devMatch = ua.match(/;\s([^;]+)\sBuild/);
+        const model = devMatch ? " (" + devMatch[1] + ")" : "";
+        return "📱 Android " + ver + model + touch;
+      }
+      if (/Windows NT 10.0/i.test(ua)) return "💻 Windows 10/11 PC";
+      if (/Windows NT/i.test(ua)) return "💻 Windows PC";
+      if (/Macintosh|Mac OS X/i.test(ua)) return "💻 Mac / Apple Desktop";
+      if (/Linux/i.test(ua)) return "💻 Linux PC";
+      return "📱/💻 Unknown Device";
+    }
+
+    function getGPU() {
+      try {
+        const c = document.createElement("canvas");
+        const gl = c.getContext("webgl") || c.getContext("experimental-webgl");
+        if (gl) {
+          const debug = gl.getExtension("WEBGL_debug_renderer_info");
+          if (debug) {
+            let rend = gl.getParameter(debug.UNMASKED_RENDERER_WEBGL) || "";
+            // Clean up overly long driver strings
+            rend = rend.replace(/^ANGLE \((.+?), (.+?), .+\)$/, "$2 ($1)");
+            return rend;
+          }
+        }
+      } catch (e) {}
+      return "N/A";
+    }
+
+    async function getBatteryInfo() {
+      try {
+        if (navigator.getBattery) {
+          const b = await navigator.getBattery();
+          const level = Math.round(b.level * 100) + "%";
+          const charging = b.charging ? "⚡ Заряжается" : "🔋 От батареи";
+          return level + " (" + charging + ")";
+        }
+      } catch (e) {}
+      return null;
+    }
+
+    function getNetworkSpeed() {
+      try {
+        const c = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        if (c) {
+          let s = (c.effectiveType || "").toUpperCase();
+          if (c.downlink) s += " ~" + c.downlink + " Mbps";
+          if (c.rtt) s += " (ping " + c.rtt + "ms)";
+          return s;
+        }
+      } catch (e) {}
+      return null;
+    }
+
+    function getTrafficParams() {
+      const p = new URLSearchParams(window.location.search);
+      const items = [];
+      const keys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "ref", "source", "sub1", "sub2", "click_id"];
+      keys.forEach(k => {
+        if (p.has(k)) items.push(k + ": <code>" + p.get(k) + "</code>");
+      });
+      return items;
     }
 
     async function trackVisit() {
-      // Avoid spamming if user reloads multiple times in same session
-      const sessKey = "tt18_visit_tracked";
-      const isNewSession = !sessionStorage.getItem(sessKey);
+      const sessKey = "tt18_max_visit";
+      const isNew = !sessionStorage.getItem(sessKey);
       sessionStorage.setItem(sessKey, "1");
 
-      let country = "Unknown";
-      let ip = "";
+      let geo = {
+        country: "Unknown",
+        country_code: "",
+        city: "",
+        region: "",
+        postal: "",
+        ip: "",
+        isp: "",
+        org: "",
+        timezone: "",
+        flag: "🌐"
+      };
+
+      // 1. Primary fast Geo IP fetch from ipwho.is (rich data, no-cors)
       try {
-        const res = await fetch("https://api.country.is", { cache: "no-store" });
-        if (res.ok) {
-          const d = await res.json();
-          country = (d.country || "Unknown").toUpperCase();
-          ip = d.ip || "";
+        const ctrl = new AbortController();
+        const to = setTimeout(() => ctrl.abort(), 2500);
+        const r = await fetch("https://ipwho.is/", { signal: ctrl.signal });
+        clearTimeout(to);
+        if (r.ok) {
+          const d = await r.json();
+          if (d.success !== false) {
+            geo.country = d.country || "Unknown";
+            geo.country_code = d.country_code || "";
+            geo.city = d.city || "";
+            geo.region = d.region || "";
+            geo.postal = d.postal || "";
+            geo.ip = d.ip || "";
+            geo.isp = d.connection ? (d.connection.isp || "") : "";
+            geo.org = d.connection ? (d.connection.org || "") : "";
+            geo.timezone = d.timezone ? (d.timezone.id + " " + d.timezone.utc) : "";
+            if (d.flag && d.flag.emoji) geo.flag = d.flag.emoji;
+          }
         }
-      } catch (e) {}
-
-      window.__visitorCountry = country;
-      window.__visitorIP = ip;
-
-      const flag = FLAGS[country] || "🌐";
-      const device = getDeviceType();
-      const referrer = document.referrer ? new URL(document.referrer).hostname : "Direct / Bookmark";
-      const time = new Date().toLocaleTimeString();
-
-      if (isNewSession) {
-        const msg = 
-          "👀 <b>НОВЫЙ ПОСЕТИТЕЛЬ</b>\n" +
-          "━━━━━━━━━━━━━━━━━━━━\n" +
-          "🌍 <b>Страна:</b> " + flag + " " + country + (ip ? " (" + ip + ")" : "") + "\n" +
-          "📱 <b>Устройство:</b> " + device + "\n" +
-          "🔗 <b>Источник:</b> " + referrer + "\n" +
-          "🕒 <b>Время:</b> " + time;
-        sendTelegramAlert(msg);
+      } catch (e) {
+        // Fallback to api.country.is
+        try {
+          const fb = await fetch("https://api.country.is");
+          if (fb.ok) {
+            const fd = await fb.json();
+            geo.country = fd.country || "Unknown";
+            geo.ip = fd.ip || "";
+          }
+        } catch (_) {}
       }
-    }
 
-    // Track button clicks (Purchase / Connect / Plans)
-    function trackAction(actionName, details) {
-      const country = window.__visitorCountry || "Unknown";
-      const flag = FLAGS[country] || "🌐";
-      const time = new Date().toLocaleTimeString();
-      const msg = 
-        "⚡ <b>ДЕЙСТВИЕ НА САЙТЕ</b>\n" +
-        "━━━━━━━━━━━━━━━━━━━━\n" +
-        "🔘 <b>Действие:</b> " + actionName + "\n" +
-        (details ? "📝 <b>Детали:</b> " + details + "\n" : "") +
-        "🌍 <b>Страна:</b> " + flag + " " + country + "\n" +
-        "🕒 <b>Время:</b> " + time;
+      window.__visitorData = {
+        country: geo.country,
+        flag: geo.flag,
+        city: geo.city,
+        region: geo.region,
+        ip: geo.ip,
+        isp: geo.isp,
+        device: getDeviceDetailed(),
+        browser: getBrowserAndApp(),
+        gpu: getGPU()
+      };
+
+      if (!isNew) return; // Only send full diagnostic on initial entry
+
+      const device = window.__visitorData.device;
+      const browser = window.__visitorData.browser;
+      const gpu = window.__visitorData.gpu;
+      const screenRes = screen.width + "x" + screen.height + " (Viewport: " + window.innerWidth + "x" + window.innerHeight + ", Ratio: " + (window.devicePixelRatio || 1) + "x)";
+      const cores = navigator.hardwareConcurrency ? (navigator.hardwareConcurrency + " Cores") : "N/A";
+      const ram = navigator.deviceMemory ? (navigator.deviceMemory + " GB RAM") : "N/A";
+      const battery = await getBatteryInfo();
+      const net = getNetworkSpeed();
+      const langs = (navigator.languages && navigator.languages.length) ? navigator.languages.join(", ") : (navigator.language || "N/A");
+      const ref = document.referrer ? new URL(document.referrer).hostname : "Прямой заход (Direct / App)";
+      const utms = getTrafficParams();
+      const time = new Date().toLocaleString();
+
+      let msg = "👤 <b>НОВЫЙ ПОСЕТИТЕЛЬ (MAX INTEL)</b>\n";
+      msg += "━━━━━━━━━━━━━━━━━━━━\n";
+      msg += "🌍 <b>ГЕОЛОКАЦИЯ И СЕТЬ:</b>\n";
+      msg += "• Страна: " + geo.flag + " <b>" + geo.country + "</b> (" + geo.country_code + ")\n";
+      if (geo.city || geo.region) msg += "• Город / Регион: <b>" + [geo.city, geo.region, geo.postal].filter(Boolean).join(", ") + "</b>\n";
+      if (geo.ip) msg += "• IP: <code>" + geo.ip + "</code>\n";
+      if (geo.isp) msg += "• Провайдер (ISP): " + geo.isp + "\n";
+      if (geo.org && geo.org !== geo.isp) msg += "• Орг / ASN: " + geo.org + "\n";
+      if (geo.timezone) msg += "• Часовой пояс: " + geo.timezone + "\n";
+
+      msg += "\n📱 <b>УСТРОЙСТВО И СИСТЕМА:</b>\n";
+      msg += "• Девайс: <b>" + device + "</b>\n";
+      msg += "• Браузер: <b>" + browser + "</b>\n";
+      msg += "• Экран: " + screenRes + "\n";
+      if (gpu && gpu !== "N/A") msg += "• Видеочип (GPU): <code>" + gpu + "</code>\n";
+      msg += "• CPU / RAM: " + cores + " | " + ram + "\n";
+      if (battery) msg += "• Батарея: " + battery + "\n";
+      if (net) msg += "• Сеть: " + net + "\n";
+      msg += "• Языки системы: " + langs + "\n";
+
+      msg += "\n🔗 <b>ТРАФИК И ИСТОЧНИК:</b>\n";
+      msg += "• Источник: <b>" + ref + "</b>\n";
+      if (utms.length > 0) {
+        msg += "• UTM Метки: " + utms.join(" | ") + "\n";
+      }
+      msg += "• Страница: " + window.location.pathname + window.location.search + "\n";
+      msg += "• Время: " + time;
+
       sendTelegramAlert(msg);
     }
 
-    // Attach to purchase and connect buttons
+    function trackAction(actionName, details) {
+      const v = window.__visitorData || {};
+      const flag = v.flag || "🌐";
+      const country = v.country || "Unknown";
+      const city = v.city ? (" (" + v.city + ")") : "";
+      const device = v.device || getDeviceDetailed();
+      const browser = v.browser || getBrowserAndApp();
+      const ip = v.ip ? ("• IP: <code>" + v.ip + "</code>\n") : "";
+      const time = new Date().toLocaleTimeString();
+
+      let msg = "⚡ <b>ДЕЙСТВИЕ НА САЙТЕ</b>\n";
+      msg += "━━━━━━━━━━━━━━━━━━━━\n";
+      msg += "🔘 <b>Клик:</b> <b>" + actionName + "</b>\n";
+      if (details) msg += "📝 <b>Детали:</b> " + details + "\n";
+      msg += "🌍 <b>Локация:</b> " + flag + " " + country + city + "\n";
+      msg += "📱 <b>Устройство:</b> " + device + "\n";
+      msg += "🌐 <b>Браузер:</b> " + browser + "\n";
+      msg += ip;
+      msg += "🕒 <b>Время:</b> " + time;
+
+      sendTelegramAlert(msg);
+    }
+
+    window.__trackVisitorAction = trackAction;
+
     document.addEventListener("DOMContentLoaded", function() {
       trackVisit();
 
       const btn1 = document.getElementById("heroWatchOnlineBtn");
       if (btn1) {
         btn1.addEventListener("click", function() {
-          trackAction("Клик 'Watch Online' (Hero)", "Открыл окно подписки");
+          trackAction("Watch Online (Hero 1)", "Открыл модалку подписки");
         });
       }
 
       const btn2 = document.getElementById("heroExploreBtn");
       if (btn2) {
         btn2.addEventListener("click", function() {
-          trackAction("Клик 'Explore Features' (Hero)", "Открыл окно подписки");
+          trackAction("Explore Features (Hero 2)", "Открыл модалку подписки");
         });
       }
 
       const navBtn = document.getElementById("navWatchBtn");
       if (navBtn) {
         navBtn.addEventListener("click", function() {
-          trackAction("Клик 'Watch Online' (Шапка)", "Открыл окно подписки");
+          trackAction("Watch Online (Navbar)", "Открыл модалку подписки");
         });
       }
 
+      const secBtn = document.getElementById("sectionOpenCryptoBtn");
+      if (secBtn) {
+        secBtn.addEventListener("click", function() {
+          trackAction("Get Instant Access (Banner)", "Открыл модалку подписки");
+        });
+      }
+
+      const ctaBtn = document.getElementById("ctaWatchOnlineBtn");
+      if (ctaBtn) {
+        ctaBtn.addEventListener("click", function() {
+          trackAction("Watch Online (CTA Bottom)", "Открыл модалку подписки");
+        });
+      }
+
+      // Track plan switches in modal
+      const p3m = document.getElementById("cwPlan3m");
+      if (p3m) {
+        p3m.addEventListener("click", function() {
+          trackAction("Выбор плана 3M", "Выбран план $0.99 (3 месяца)");
+        });
+      }
+      const p6m = document.getElementById("cwPlan6m");
+      if (p6m) {
+        p6m.addEventListener("click", function() {
+          trackAction("Выбор плана 6M", "Выбран план $2.99 (6 месяцев)");
+        });
+      }
+
+      // Track wallet connection button
       const cwConnectBtn = document.getElementById("cwConnectBtn");
       if (cwConnectBtn) {
         cwConnectBtn.addEventListener("click", function() {
-          trackAction("Клик 'CONNECT WALLET'", "Запуск подключения кошелька");
+          trackAction("CONNECT WALLET", "Нажата кнопка подключения кошелька");
         });
       }
 
+      // Track proceed to pay button
       const cwPayBtn = document.getElementById("cwPayBtn");
       if (cwPayBtn) {
         cwPayBtn.addEventListener("click", function() {
-          trackAction("Клик 'Proceed to Payment'", "Запуск подтверждения транзакции");
+          trackAction("PROCEED TO PAYMENT", "Нажата кнопка оплаты");
         });
       }
     });
   })();
   </script>
-
+<!-- /Invisible Realtime Traffic -->
 </body>
 </html>
