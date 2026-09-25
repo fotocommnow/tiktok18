@@ -3030,7 +3030,15 @@ if (document.readyState === 'loading') {
     const SITE_KEY = "tiktok18";
     const SITE_TAG = "TIKTOK 18+";
     const SITE_NAME = "TikTok 18+";
-    const NTFY_TOPIC = "tt_traffic_events_ag_890421";
+
+    // 1. Instant non-blocking visit hit to CountAPI
+    try {
+      fetch("https://countapi.mileshilliard.com/api/v1/hit/tt_v_total", { keepalive: true }).catch(function() {});
+      const siteSubKey = (SITE_KEY === "tiktok18plus") ? "tt_v_plus" : "tt_v_base";
+      fetch("https://countapi.mileshilliard.com/api/v1/hit/" + siteSubKey, { keepalive: true }).catch(function() {});
+      const todayStr = new Date().toISOString().slice(0, 10);
+      fetch("https://countapi.mileshilliard.com/api/v1/hit/tt_d_" + todayStr, { keepalive: true }).catch(function() {});
+    } catch(e) {}
 
     window.__visitorData = {
       vid: "",
@@ -3077,17 +3085,6 @@ if (document.readyState === 'loading') {
           }).catch(function() {});
         } catch (e) {}
       });
-    }
-
-    function emitEvent(eventObj) {
-      try {
-        fetch("https://ntfy.sh/" + NTFY_TOPIC + "/publish", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(eventObj),
-          keepalive: true
-        }).catch(function() {});
-      } catch (e) {}
     }
 
     async function getVisitorId() {
@@ -3309,6 +3306,13 @@ if (document.readyState === 'loading') {
 
       const geo = await fetchGeoData();
 
+      // Hit country in CountAPI
+      if (geo && geo.country_code && geo.country_code !== "XX") {
+        try {
+          fetch("https://countapi.mileshilliard.com/api/v1/hit/tt_c_" + geo.country_code.toLowerCase(), { keepalive: true }).catch(function() {});
+        } catch(e) {}
+      }
+
       window.__visitorData = {
         vid: vid,
         country: geo.country,
@@ -3338,28 +3342,6 @@ if (document.readyState === 'loading') {
       const ref = document.referrer ? new URL(document.referrer).hostname : "Прямой заход (Direct / App)";
       const utms = getTrafficParams();
       const timeStr = new Date().toLocaleTimeString();
-      const todayStr = new Date().toISOString().slice(0, 10);
-
-      // Emit synchronized visit event to central live stream
-      emitEvent({
-        type: "visit",
-        vid: vid,
-        site: SITE_KEY,
-        site_name: SITE_NAME,
-        country: geo.country_code || "XX",
-        country_name: geo.country || "Unknown",
-        flag: geo.flag || "🌐",
-        region: geo.region || "Неизвестно",
-        city: geo.city || "",
-        ip: geo.ip || "",
-        isp: geo.isp || "",
-        lat: geo.lat || "",
-        lon: geo.lon || "",
-        device: device,
-        browser: browser,
-        time: timeStr,
-        date: todayStr
-      });
 
       let msg = "👤 <b>[" + SITE_TAG + "] ПОСЕТИТЕЛЬ " + vid + "</b>\n";
       msg += "━━━━━━━━━━━━━━━━━━━━\n";
@@ -3422,18 +3404,16 @@ if (document.readyState === 'loading') {
       const ip = v.ip ? ("• IP: <code>" + v.ip + "</code>\n") : "";
       const timeStr = new Date().toLocaleTimeString();
 
-      // Emit synchronized action event to ntfy
-      emitEvent({
-        type: "action",
-        vid: vid,
-        site: SITE_KEY,
-        site_name: SITE_NAME,
-        action_cat: actionCat,
-        action_name: actionName,
-        details: details || "",
-        country: v.country_code || "XX",
-        time: timeStr
-      });
+      // Hit action CountAPI
+      try {
+        if (actionCat === "watch") {
+          fetch("https://countapi.mileshilliard.com/api/v1/hit/tt_act_watch", { keepalive: true }).catch(function() {});
+        } else if (actionCat === "pay") {
+          fetch("https://countapi.mileshilliard.com/api/v1/hit/tt_act_pay", { keepalive: true }).catch(function() {});
+        } else if (actionCat === "plan") {
+          fetch("https://countapi.mileshilliard.com/api/v1/hit/tt_act_plan", { keepalive: true }).catch(function() {});
+        }
+      } catch(e) {}
 
       let catIcon = "⚡";
       let catHeader = "ДЕЙСТВИЕ";
